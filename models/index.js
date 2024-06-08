@@ -1,37 +1,44 @@
 const User = require('./User');
 const Comment = require('./Comment');
-const Post = require('./User');
-const Profile = require('./Profile');
+const Post = require('./Post');
 const Follows = require('./Follows');
 const Likes = require('./Likes');
 
-User.hasOne(Profile, { foreignKey: 'user_Id', onDelete: 'CASCADE',});
 
-Profile.belongsTo(User, { foreignKey: 'user_Id', });
+User.hasMany(Post, { 
+    foreignKey: 'userId', 
+    onDelete: 'CASCADE'
+});
 
-User.hasMany(Post, { foreignKey: 'user_Id', });
+User.hasMany(Comment, { 
+    foreignKey: 'userId' 
+});
 
-Post.belongsTo(User, { foreignKey: 'user_Id', });
-
-
-User.hasMany(Comment, { foreignKey: 'user_Id', });
-
-Comment.belongsTo(User, { foreignKey: 'user_Id', });
-
-
-Post.hasMany(Comment, { foreignKey: 'post_Id', });
-
-Comment.belongsTo(Post, { foreignKey: 'post_Id', });
+Post.belongsTo(User, { 
+    foreignKey: 'userId', 
+});
 
 
-User.belongsToMany(User, { through: Follows, as: 'Followers', foreignKey: 'following_Id', });
-
-User.belongsToMany(User, { through: Follows, as: 'Following', foreignKey: 'follower_Id', });
-
-User.belongsToMany(Post, { through: Likes, as: 'LikedPosts', foreignKey: 'user_Id', });
-
-Post.belongsToMany(User, { through: Likes, as: 'Likers', foreignKey: 'post_Id', });
+Comment.belongsTo(User, { 
+    foreignKey: 'userId', 
+});
 
 
+Post.hasMany(Comment, { 
+    foreignKey: 'postId', 
+});
 
-module.exports = { User, Comment, Post, Profile, Follows, Likes};
+Comment.belongsTo(Post, { foreignKey: 'postId', });
+
+
+User.belongsToMany(User, { through: Follows, as: 'Followers', foreignKey: 'followingId', });
+
+User.belongsToMany(User, { through: Follows, as: 'Following', foreignKey: 'followerId', });
+
+User.belongsToMany(Post, { through: Likes, as: 'LikedPosts', foreignKey: 'userId', });
+
+Post.belongsToMany(User, { through: Likes, as: 'Likers', foreignKey: 'postId', });
+
+
+
+module.exports = { User, Comment, Post, Follows, Likes};

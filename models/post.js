@@ -12,13 +12,13 @@ Post.init(
       autoIncrement: true,
     },
     title: {
-      type: DataTypes.TEXT,
+      type: DataTypes.STRING,
       allowNull: false,
     },
-    contents: {
+    post_contents: {
       type: DataTypes.STRING,
     },
-    image: {
+    image_url: {
       type: DataTypes.STRING,
     },
     date: {
@@ -26,7 +26,7 @@ Post.init(
       defaultValue: DataTypes.NOW,
     },
     
-    user_Id: {
+    userId: {
       type: DataTypes.INTEGER,
       references: {
         model: 'user',

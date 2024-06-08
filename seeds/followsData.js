@@ -2,8 +2,9 @@ const { Follows} = require('../models');
 
 const followsdata = [
   {
-    following_id: '001',
+    followed_id: '001',
     follower_id: '002',
+    dateCreated:'06/07/2024'
   },
   
 ];

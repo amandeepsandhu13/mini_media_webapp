@@ -6,6 +6,7 @@ const seedFollows = require('./followsData');
 const seedLikes = require('./likesData')
 
 const seedAll = async () => {
+  try{
   await sequelize.sync({ force: true });
 
   await seedPost();
@@ -19,6 +20,11 @@ const seedAll = async () => {
   await seedLikes();
 
   process.exit(0);
+  }
+  catch (error){
+    console.error('Failed to seed database:', error);
+    process.exit(1);
+  }
 };
 
 seedAll();

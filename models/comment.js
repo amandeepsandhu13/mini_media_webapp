@@ -11,14 +11,14 @@ Comment.init(
       primaryKey: true,
       autoIncrement: true,
     },
-    comment_text: {
+    comment_content: {
       type: DataTypes.STRING,
       allowNull: true,
       validate: {
         len: [1],
       },
     },
-    user_Id: {
+    userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
@@ -26,7 +26,7 @@ Comment.init(
         key: "id",
       },
     },
-    post_Id: {
+    postId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
@@ -34,6 +34,11 @@ Comment.init(
         key: "id",
       },
     },
+    dateCreated: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW
+  },
   },
   {
   sequelize,

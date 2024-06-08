@@ -11,20 +11,25 @@ Follows.init(
       primaryKey: true,
       autoIncrement: true,
     },
-    following_Id: {
+    followedId: {
         type: DataTypes.INTEGER,
         references: {
           model: 'User',
           key: 'id',
         },
       },
-    follower_Id: {
+    followerId: {
       type: DataTypes.INTEGER,
         references: {
           model: 'User',
           key: 'id',
         },
     },
+    dateCreated: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW
+  },
     
 
 

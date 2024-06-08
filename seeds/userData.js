@@ -2,15 +2,16 @@ const { User } = require('../models');
 
 const userdata = [
   {
-    username: 'Bethoven',
-    email:'dogs@animal.com',
-    password:'fhfFf123',
     
-  },
-  {
-    username: ' MrsJack',
-    email:'cats@animal.com',
-    password:'Ghhsu263'
+    email:'dogs@animal.com',
+    username: 'Bethoven',
+    password:'fhfFf123',
+    name:'Beth',
+    DOB:'06/07/2021',
+    gender:'male',
+    bio:'love my toys',
+    dateCreated:'06/07/2024',
+
   },
 ];
 
