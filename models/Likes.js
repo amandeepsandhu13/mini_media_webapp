@@ -13,6 +13,7 @@ Likes.init(
     },
     postId:{
       type: DataTypes.INTEGER,
+      allowNull: false,
       references: {
         model: "post",
         key: "id",
@@ -20,6 +21,7 @@ Likes.init(
     },
     userId: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       references: {
         model: 'user',
         key: 'id',
