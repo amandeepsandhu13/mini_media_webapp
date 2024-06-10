@@ -1,7 +1,7 @@
-// const router = require('express').Router();
+const router = require('express').Router();
 
-// const commentRoutes = require('./commentController');
+const commentRoutes = require('./commentController');
 
-// router.use('/posts', commentRoutes);
+router.use('/posts', commentRoutes);
 
-// module.exports = router;
+module.exports = router;
