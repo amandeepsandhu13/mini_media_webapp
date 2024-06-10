@@ -14,14 +14,14 @@ Follows.init(
     followedId: {
         type: DataTypes.INTEGER,
         references: {
-          model: 'User',
+          model: 'user',
           key: 'id',
         },
       },
     followerId: {
       type: DataTypes.INTEGER,
         references: {
-          model: 'User',
+          model: 'user',
           key: 'id',
         },
     },
@@ -39,7 +39,7 @@ Follows.init(
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: 'post',
+    modelName: 'follows',
   }
 );
 
