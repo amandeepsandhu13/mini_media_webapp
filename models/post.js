@@ -17,9 +17,11 @@ Post.init(
     },
     post_contents: {
       type: DataTypes.STRING,
+      allowNull: true,
     },
     image_url: {
       type: DataTypes.STRING,
+      allowNull: true,
     },
     date: {
       type: DataTypes.DATE,
@@ -28,6 +30,7 @@ Post.init(
     
     userId: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       references: {
         model: 'user',
         key: 'id',

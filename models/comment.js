@@ -48,4 +48,4 @@ Comment.init(
   modelName: "comment",
   }
   );
-  module.exports = Comment
+  module.exports = Comment;
