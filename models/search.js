@@ -18,7 +18,7 @@ client.connect().then(() => {
 });
 
 app.use(express.json());
-app.use(express.static('public')); // Serve static files from the 'public' directory
+app.use(express.static('public'));
 
 app.get('/search', async (req, res) => {
   const userId = req.query.userId;
