@@ -14,7 +14,8 @@ router.get("/", async (req, res) => {
     }
 });
 
-// api/posts/userid
+// getting the posts as per each user
+// api/userid
 router.get("/:userid", async (req, res) => {
     try {
         const userPosts = await Post.findAll({
