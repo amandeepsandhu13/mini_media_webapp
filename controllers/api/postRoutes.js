@@ -69,6 +69,7 @@ router.delete("/:id", withAuth, async (req, res) => {
 
         res.status(200).json(postData);
     } catch (err) {
+        console.error(`The error found in the app : ` + err);
         res.status(500).json(err);
     }
 });
