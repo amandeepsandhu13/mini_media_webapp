@@ -1,11 +1,12 @@
 const router = require('express').Router();
-const User = require('../../models/User'); // Ensure this path is correct
+const User = require('../../models/User'); 
+const Post = require('../../models/Post');
 
 // Register new user
 router.post('/register', async (req, res) => {
 
   console.log('API URL:', req.originalUrl);
-  //console.log("hello register!!");
+  console.log("hello register!!");
 
    try {
     //const hashedPassword = await bcrypt.hash(req.body.password, 10);
@@ -18,7 +19,7 @@ router.post('/register', async (req, res) => {
       gender: req.body.gender,
       bio: req.body.bio
     });
-    console.log('User registered:', newUser);
+    //console.log('User registered:', newUser);
 
     req.session.save(() => {
       req.session.user_id = newUser.id;
@@ -74,9 +75,11 @@ router.post('/logout', (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const userData = await User.findByPk(req.params.id);
+
     if (!userData) {
       return res.status(404).json({ message: 'User not found' });
     }
+
     res.json(userData);
   } catch (err) {
     console.error('Error fetching user profile:', err);
@@ -104,6 +107,12 @@ router.put('/:id', async (req, res) => {
 // Delete user profile
 router.delete('/:id', async (req, res) => {
   try {
+     
+    // Delete user's posts
+    await Post.destroy({
+      where: { userId: req.params.id }
+    });
+  
     const result = await User.destroy({
       where: { id: req.params.id }
     });
