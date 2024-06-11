@@ -1,0 +1,8 @@
+<!-- Loop over each object in the users array -->
+{{#each users as |user| }}
+    <h2>
+      <!-- Call helper function with triple brackets to render the emoji span as HTML -->
+      {{{get_emoji}}}
+      <a href="/project/{{user.id}}">{{user.name}}</a>
+    </h2>
+    <p>
