@@ -1,12 +1,13 @@
 const router = require('express').Router();
 const User = require('../../models/User'); 
 const Post = require('../../models/Post');
+// Import the withAuth middleware
+const withAuth = require('../../utils/auth');
 
 // Register new user
 router.post('/register', async (req, res) => {
 
   console.log('API URL:', req.originalUrl);
-  console.log("hello register!!");
 
    try {
     //const hashedPassword = await bcrypt.hash(req.body.password, 10);
@@ -51,8 +52,9 @@ router.post('/login', async (req, res) => {
     req.session.save(() => {
       req.session.user_id = userData.id;
       req.session.logged_in = true;
-
-      res.status(200).json({ user: userData, message: 'You are now logged in!' });
+        // Redirect to the profile page after successful login
+        res.redirect('/profile');
+      //res.status(200).json({ user: userData, message: 'You are now logged in!' });
     });
   } catch (err) {
     console.error('Error during login:', err);
@@ -72,7 +74,7 @@ router.post('/logout', (req, res) => {
 });
 
 // Get user profile
-router.get('/:id', async (req, res) => {
+router.get('/:id', withAuth, async (req, res) => {
   try {
     const userData = await User.findByPk(req.params.id);
 

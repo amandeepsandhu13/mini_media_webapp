@@ -1,5 +1,9 @@
 const router = require('express').Router();
 
+router.get('/', (req, res) => {
+  res.render('homepage', { title: 'Media' });
+});
+
 router.get('/register', (req, res) => {
   res.render('register', { title: 'Register' });
 });
