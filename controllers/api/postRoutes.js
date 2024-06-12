@@ -1,9 +1,8 @@
 const router = require("express").Router();
 const { Post } = require("../../models/index");
-const withAuth = require("../../utils/auth");
+const { withAuth, withAuthApi } = require("../../utils/auth");
 
 // to show all posts
-// /api/posts
 router.get("/", async (req, res) => {
     try {
         const postsData = await Post.findAll();
@@ -15,7 +14,6 @@ router.get("/", async (req, res) => {
 });
 
 // getting the posts as per each user
-// api/userid
 router.get("/:userid", async (req, res) => {
     try {
         const userPosts = await Post.findAll({
@@ -40,7 +38,7 @@ router.get("/:userid", async (req, res) => {
 });
 
 // to add the post
-router.post("/", withAuth, async (req, res) => {
+router.post("/", withAuthApi, async (req, res) => {
     try {
         const newPost = await Post.create({
             ...req.body,
