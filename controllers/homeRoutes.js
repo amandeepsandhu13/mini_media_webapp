@@ -1,7 +1,14 @@
 const router = require("express").Router();
+// Import the withAuth middleware
+const withAuth = require('../utils/auth');
 
-router.get("/register", (req, res) => {
-    res.render("register", { title: "Register" });
+router.get('/', (req, res) => {
+  res.render('homepage', { title: 'Media' });
+});
+
+router.get('/register', (req, res) => {
+  res.render('register', { title: 'Register' });
+
 });
 
 router.get("/login", (req, res) => {
