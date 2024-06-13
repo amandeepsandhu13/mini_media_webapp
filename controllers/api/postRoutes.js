@@ -51,7 +51,7 @@ router.post("/", withAuthApi, async (req, res) => {
     }
 });
 
-// to delete each post
+// to delete the post
 router.delete("/:id", withAuth, async (req, res) => {
     try {
         const postData = await Post.destroy({
