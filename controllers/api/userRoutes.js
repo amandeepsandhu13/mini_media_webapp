@@ -1,13 +1,10 @@
 const router = require("express").Router();
-const User = require("../../models/User");
-const Post = require("../../models/Post");
-// Import the withAuth middleware
-const withAuth = require('../../utils/auth');
+const { User, Post } = require("../../models");
+const forgotPasswordRoutes = require("./forgotPasswordRoutes");
+const { withAuthApi, withAuth } = require("../../utils/auth");
 
 // Register new user
-router.post('/register', async (req, res) => {
-
-  console.log('API URL:', req.originalUrl);
+router.post("/register", async (req, res) => {
 
   try {
     //const hashedPassword = await bcrypt.hash(req.body.password, 10);
@@ -18,9 +15,8 @@ router.post('/register', async (req, res) => {
       name: req.body.name,
       DOB: req.body.DOB,
       gender: req.body.gender,
-      bio: req.body.bio
+      bio: req.body.bio,
     });
-    //console.log('User registered:', newUser);
 
     req.session.save(() => {
       req.session.user_id = newUser.id;
@@ -29,41 +25,51 @@ router.post('/register', async (req, res) => {
       res.status(200).json(newUser);
     });
   } catch (err) {
-    console.error('Error during registration:', err);
+    console.error("Error during registration:", err);
     res.status(400).json(err);
   }
 });
 
 // Login user
-router.post('/login', async (req, res) => {
+router.post("/login", async (req, res) => {
   try {
     const userData = await User.findOne({ where: { email: req.body.email } });
 
     if (!userData) {
-      return res.status(400).json({ message: 'Incorrect email or password, please try again' });
+      return res.render('login', { errorMessage: 'Incorrect email or password, please try again' });
     }
 
     const validPassword = await userData.checkPassword(req.body.password);
 
     if (!validPassword) {
-      return res.status(400).json({ message: 'Incorrect email or password, please try again' });
+      return res.render('login', { errorMessage: 'Incorrect email or password, please try again' });
     }
 
     req.session.save(() => {
       req.session.user_id = userData.id;
       req.session.logged_in = true;
       // Redirect to the profile page after successful login
-        res.redirect('/profile');
-      //res.status(200).json({ user: userData, message: 'You are now logged in!' });
+      res.redirect("/profile");
     });
   } catch (err) {
-    console.error('Error during login:', err);
+    console.error("Error during login:", err);
     res.status(400).json(err);
   }
 });
 
+// Logout user with GET request
+router.get("/logout", (req, res) => {
+  if (req.session.logged_in) {
+    req.session.destroy(() => {
+      res.redirect("/login"); // Redirect to the login page after logout
+    });
+  } else {
+    res.status(404).end();
+  }
+});
+
 // Logout user
-router.post('/logout', (req, res) => {
+router.post("/logout", (req, res) => {
   if (req.session.logged_in) {
     req.session.destroy(() => {
       res.status(204).end();
@@ -74,58 +80,66 @@ router.post('/logout', (req, res) => {
 });
 
 // Get user profile
-router.get('/:id', withAuth, async (req, res) => {
+router.get("/:id", withAuthApi, async (req, res) => {
   try {
     const userData = await User.findByPk(req.params.id);
 
     if (!userData) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: "User not found" });
     }
 
     res.json(userData);
   } catch (err) {
-    console.error('Error fetching user profile:', err);
+    console.error("Error fetching user profile:", err);
     res.status(500).json(err);
   }
 });
 
-// Update user profile
-router.put('/:id', async (req, res) => {
+//update user data
+router.put("/profile/:id", withAuth, async (req, res) => {
+  const { name, username, DOB, gender, bio } = req.body;
+  const userId = req.params.id;
   try {
-    const updatedUserData = await User.update(req.body, {
-      where: { id: req.params.id },
-      individualHooks: true,
-    });
-    if (!updatedUserData[0]) {
-      return res.status(404).json({ message: 'User not found' });
+    const [updatedCount] = await User.update(
+      { name, username, DOB, gender, bio },
+      { where: { id: userId }, individualHooks: true }
+    );
+
+    if (updatedCount === 0) {
+      return res.status(404).json({ message: "User not found" });
     }
-    res.json({ message: 'User profile updated successfully' });
+
+    const updatedUser = await User.findByPk(userId);
+    res.status(200).json({
+      message: "User profile updated successfully",
+      user: updatedUser,
+    });
   } catch (err) {
-    console.error('Error updating user profile:', err);
-    res.status(500).json(err);
+    console.error("Error updating user profile:", err);
+    res.status(500).json({ error: "Failed to update user profile" });
   }
 });
 
 // Delete user profile
-router.delete('/:id', async (req, res) => {
+router.delete("/api/user/delete/:id", withAuthApi, async (req, res) => {
   try {
-     
     // Delete user's posts
     await Post.destroy({
-      where: { userId: req.params.id }
+      where: { userId: req.params.id },
     });
 
     const result = await User.destroy({
-      where: { id: req.params.id }
+      where: { id: req.params.id },
     });
     if (!result) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: "User not found" });
     }
     res.status(204).end();
   } catch (err) {
-    console.error('Error deleting user profile:', err);
+    console.error("Error deleting user profile:", err);
     res.status(500).json(err);
   }
 });
+
 
 module.exports = router;
