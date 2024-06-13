@@ -1,0 +1,81 @@
+/* General Styles */
+body, html {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  background: #f5f5f5;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+.container {
+  margin-top: 5%;
+}
+
+.footer {
+  background-color: #2196f3;
+  color: white;
+  padding: 10px 0;
+  text-align: center;
+}
+
+.input-field label {
+  color: #2196f3;
+}
+
+.input-field input:focus + label {
+  color: #1976d2 !important;
+}
+
+.input-field input:focus {
+  border-bottom: 1px solid #1976d2 !important;
+  box-shadow: 0 1px 0 0 #1976d2 !important;
+}
+
+/* Navbar Styles */
+.nav-wrapper {
+  background-color: #2196f3;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.nav-wrapper .container {
+  display: flex;
+  align-items: center;
+}
+
+.nav-wrapper .brand-logo {
+  font-size: 1.5rem;
+  margin-left: 10px;
+}
+
+.nav-wrapper .right > li > a {
+  color: white;
+  line-height: 64px;
+}
+
+.nav-wrapper .btn {
+  background-color: #1976d2;
+}
+
+.error-message {
+  margin-bottom: 16px;
+  padding: 10px;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  color: #721c24;
+  border-radius: 4px;
+}
+
+/* Header Styles */
+header.blue {
+  background-color: #2196f3;
+  color: white;
+  padding: 10px 0; /* Adjust padding as needed */
+  margin: 0; /* Reset margin */
+}
