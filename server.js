@@ -1,51 +1,55 @@
-const path = require("path");
-const express = require("express");
-const session = require("express-session");
-const exphbs = require("express-handlebars");
-const routes = require("./controllers");
-const helpers = require("./utils/helpers");
+const path = require('path');
+const express = require('express');
+const session = require('express-session');
+const exphbs = require('express-handlebars');
+const fs = require('fs');
+const helpers = require('handlebars-helpers')(); // Ensure handlebars-helpers is installed
 
-const sequelize = require("./config/connection");
-const SequelizeStore = require("connect-session-sequelize")(session.Store);
+const sequelize = require('./config/connection');
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
+const routes = require('./controllers');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+// Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, "public")));
 
-// Set up Handlebars.js engine with custom helpers
-const hbs = exphbs.create({ helpers });
-
+// Session configuration
 const sess = {
     secret: "Super secret secret",
     cookie: {
         maxAge: 300000,
         httpOnly: true,
-        secure: false,
+        secure: false, // Change to true in production if using HTTPS
         sameSite: "strict",
     },
     resave: false,
     saveUninitialized: true,
-    store: new SequelizeStore({
-        db: sequelize,
-    }),
+    store: new SequelizeStore({ db: sequelize }),
 };
 
 app.use(session(sess));
 
-// Inform Express.js on which template engine to use
+// Handlebars setup
+const hbs = exphbs.create({ helpers });
+
+// Register partials
+hbs.handlebars.registerPartial('header', fs.readFileSync(path.join(__dirname, 'views', 'partials', 'header.handlebars'), 'utf8'));
+hbs.handlebars.registerPartial('footer', fs.readFileSync(path.join(__dirname, 'views', 'partials', 'footer.handlebars'), 'utf8'));
+
+// Set template engine
 app.engine("handlebars", hbs.engine);
 app.set("view engine", "handlebars");
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, "public")));
-
+// Routes
 app.use(routes);
 
+// Start server
 sequelize.sync({ force: false }).then(() => {
-    app.listen(PORT, () =>
-        console.log("Now listening to : http://localhost:3001")
-    );
+    app.listen(PORT, () => {
+        console.log(`Server is running on http://localhost:${PORT}`);
+    });
 });
