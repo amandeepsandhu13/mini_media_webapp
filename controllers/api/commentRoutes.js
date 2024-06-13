@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const { Comment } = require("../../models/index");
-const withAuth = require("../../utils/auth");
+const { withAuth, withAuthApi } = require("../../utils/auth");
 
 // to see all the comments
 router.get("/:id", async (req, res) => {

@@ -1,22 +1,41 @@
-<form id="register-form">
+<form id="register-form" class="col s12">
   <h2>Register</h2>
-  <label for="name">Name:</label>
-  <input type="text" id="name" name="name" required>
-  <label for="email">Email:</label>
-  <input type="email" id="email" name="email" required>
-  <label for="username">Username:</label>
-  <input type="text" id="username" name="username" required>
-  <label for="password">Password:</label>
-  <input type="password" id="password" name="password" required>
-  <label for="DOB">Date of Birth:</label>
-  <input type="date" id="DOB" name="DOB" required>
-  <label for="gender">Gender:</label>
-  <select id="gender" name="gender" required>
-    <option value="male">Male</option>
-    <option value="female">Female</option>
-    <option value="other">Other</option>
-  </select>
-  <label for="bio">Bio:</label>
-  <textarea id="bio" name="bio"></textarea>
-  <button type="submit">Register</button>
+  <div class="row">
+    <div class="input-field col s12">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" class="validate" required>
+    </div>
+    <div class="input-field col s12">
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" class="validate" required>
+    </div>
+    <div class="input-field col s12">
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" class="validate" required>
+    </div>
+    <div class="input-field col s12">
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" class="validate" required>
+    </div>
+    <div class="input-field col s12">
+      <label for="DOB">Date of Birth:</label>
+      <input type="text" id="DOB" name="DOB" class="datepicker" required>
+    </div>
+  </div>
+  <div class="row">
+    <div class="input-field col s12 m6">
+      <label for="gender">Gender:</label>
+      <select id="gender" name="gender" class="validate" required>
+        <option value="" disabled selected>Select your gender</option>
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+    <div class="input-field col s12 m6">
+      <label for="bio">Bio:</label>
+      <textarea id="bio" name="bio" class="materialize-textarea"></textarea>
+    </div>
+  </div>
+  <button class="btn waves-effect waves-light" type="submit" name="action">Register</button>
 </form>

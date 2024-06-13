@@ -1,12 +1,17 @@
 <header>
   <nav>
-    <a href="/">Home</a>
-    {{#if logged_in}}
-      <a href="/profile">Profile</a>
-      <a href="/logout">Logout</a>
-    {{else}}
-      <a href="/login">Login</a>
-      <a href="/register">Register</a>
-    {{/if}}
+    <div class="nav-wrapper">
+      <a href="/" class="brand-logo">Logo</a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a href="/">Home</a></li>
+        {{#if logged_in}}
+          <li><a href="/profile">Profile</a></li>
+          <li><a href="/logout">Logout</a></li>
+        {{else}}
+          <li><a href="/login">Login</a></li>
+          <li><a href="/register">Register</a></li>
+        {{/if}}
+      </ul>
+    </div>
   </nav>
 </header>
