@@ -1,28 +1,21 @@
-{{!-- views/user-profile.handlebars --}}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{title}}</title>
-  <link rel="stylesheet" href="/css/style.css">
-</head>
-<body>
-  {{> header}}
-  <main>
+
+  <main class="container">
     <h1>User Profile</h1>
     {{#if user}}
-      <p><strong>Name:</strong> {{user.name}}</p>
-      <p><strong>Email:</strong> {{user.email}}</p>
-      <p><strong>Username:</strong> {{user.username}}</p>
-      <p><strong>Date of Birth:</strong> {{user.DOB}}</p>
-      <p><strong>Gender:</strong> {{user.gender}}</p>
-      <p><strong>Bio:</strong> {{user.bio}}</p>
-      <a href="/update-profile">Edit Profile</a>
+      <div class="card">
+        <div class="card-content">
+          <p><strong>Name:</strong> {{user.name}}</p>
+          <p><strong>Email:</strong> {{user.email}}</p>
+          <p><strong>Username:</strong> {{user.username}}</p>
+          <p><strong>Date of Birth:</strong> {{user.DOB}}</p>
+          <p><strong>Gender:</strong> {{user.gender}}</p>
+          <p><strong>Bio:</strong> {{user.bio}}</p>
+        </div>
+        <div class="card-action">
+          <a href="/update-profile/{{ user.id }}" class="btn waves-effect waves-light">Edit Profile</a>
+        </div>
+      </div>
     {{else}}
       <p>User data not available. Please log in.</p>
     {{/if}}
   </main>
-  {{> footer}}
-</body>
-</html>
