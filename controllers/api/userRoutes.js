@@ -1,6 +1,6 @@
-const router = require('express').Router();
-const User = require('../../models/User'); 
-const Post = require('../../models/Post');
+const router = require("express").Router();
+const User = require("../../models/User");
+const Post = require("../../models/Post");
 // Import the withAuth middleware
 const withAuth = require('../../utils/auth');
 
@@ -9,7 +9,7 @@ router.post('/register', async (req, res) => {
 
   console.log('API URL:', req.originalUrl);
 
-   try {
+  try {
     //const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const newUser = await User.create({
       email: req.body.email,
@@ -52,7 +52,7 @@ router.post('/login', async (req, res) => {
     req.session.save(() => {
       req.session.user_id = userData.id;
       req.session.logged_in = true;
-        // Redirect to the profile page after successful login
+      // Redirect to the profile page after successful login
         res.redirect('/profile');
       //res.status(200).json({ user: userData, message: 'You are now logged in!' });
     });
@@ -114,7 +114,7 @@ router.delete('/:id', async (req, res) => {
     await Post.destroy({
       where: { userId: req.params.id }
     });
-  
+
     const result = await User.destroy({
       where: { id: req.params.id }
     });
