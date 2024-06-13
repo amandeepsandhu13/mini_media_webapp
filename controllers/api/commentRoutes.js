@@ -3,8 +3,6 @@ const { Comment } = require("../../models/index");
 const { withAuth, withAuthApi } = require("../../utils/auth");
 
 // to see all the comments
-
-
 router.get("/:id", async (req, res) => {
     try {
         const commentData = await Comment.findAll({
@@ -23,17 +21,21 @@ router.get("/:id", async (req, res) => {
     }
 });
 
-router.post('/', async (req, res) => {
-    try { const commentData = await 
-      Comment.create(req.body);
-      res.status(200).json(commentData);
-      }
-      catch(err){
-        console.log(err);
-        res.status(500).json(err);
-      }
-    // create a new comment
-  });
+// to add the comment
+router.post("/:postid", withAuth, async (req, res) => {
+    try {
+        const newComment = await Comment.create({
+            ...req.body,
+            user_id: req.session.user_id,
+            post_id: req.params.postid,
+        });
 
+        res.status(200).json(newComment);
+    } catch (err) {
+        console.error(`The error found while posting the comment`, err);
+    }
+});
+
+// to delete the comment
 
 module.exports = router;

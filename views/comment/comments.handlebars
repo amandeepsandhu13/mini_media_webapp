@@ -1,5 +1,8 @@
-
-  <form id="new-comment-form">
-    <textarea id="commentcontent" placeholder="Enter your comment"></textarea>
-    <button type="submit">Submit Comment</button>
-  </form>
+<ul class="comment-list">
+    {{#each comments}}
+    <li>
+        <p>{{this.comment_text}}</p>
+        <button data-id="{{this.id}}" data-postid="{{../post_id}}">Delete</button>
+    </li>
+    {{/each}}
+</ul>
