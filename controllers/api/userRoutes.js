@@ -50,6 +50,7 @@ router.post("/login", async (req, res) => {
       req.session.logged_in = true;
       // Redirect to the profile page after successful login
       res.redirect("/profile");
+      
     });
   } catch (err) {
     console.error("Error during login:", err);
