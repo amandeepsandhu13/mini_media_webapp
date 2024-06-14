@@ -1,20 +1,50 @@
-<form id="update-profile-form">
-  <h2>Update Profile</h2>
-  <label for="name">Name:</label>
-  <input type="text" id="name" name="name" value="{{user.name}}" required>
-  <label for="email">Email:</label>
-  <input type="email" id="email" name="email" value="{{user.email}}" required>
-  <label for="username">Username:</label>
-  <input type="text" id="username" name="username" value="{{user.username}}" required>
-  <label for="DOB">Date of Birth:</label>
-  <input type="date" id="DOB" name="DOB" value="{{user.DOB}}" required>
-  <label for="gender">Gender:</label>
-  <select id="gender" name="gender" required>
-    <option value="male" {{#if (eq user.gender "male")}}selected{{/if}}>Male</option>
-    <option value="female" {{#if (eq user.gender "female")}}selected{{/if}}>Female</option>
-    <option value="other" {{#if (eq user.gender "other")}}selected{{/if}}>Other</option>
-  </select>
-  <label for="bio">Bio:</label>
-  <textarea id="bio" name="bio">{{user.bio}}</textarea>
-  <button type="submit">Update</button>
-</form>
+  <div class="row">
+    <div class="col s12">
+      <h2>Update Profile</h2>
+      <div id="updateMessage"></div>
+      <form id="update-profile-form" data-user-id="{{user.id}}" method="POST">
+        
+        <!-- Name -->
+        <div class="input-field">
+          <input type="text" id="name" name="name" class="validate" value="{{user.name}}" required>
+          <label for="name">Name</label>
+        </div>
+        
+        <!-- Username -->
+        <div class="input-field">
+          <input type="text" id="username" name="username" class="validate" value="{{user.username}}" required>
+          <label for="username">Username</label>
+        </div>
+        
+        <!-- Date of Birth -->
+        <div class="input-field">
+          <input type="date" id="DOB" name="DOB" class="datepicker" value="{{user.DOB}}" required>
+          <label for="DOB">Date of Birth</label>
+        </div>
+        
+        <!-- Gender -->
+        <div class="input-field">
+          <select id="gender" class="form-select" name="gender" class="validate">
+            <option value="" disabled>Select Gender</option>
+            <option value="male" {{#if (eq user.gender 'male')}}selected{{/if}}>Male</option>
+            <option value="female" {{#if (eq user.gender 'female')}}selected{{/if}}>Female</option>
+            <option value="other" {{#if (eq user.gender 'other')}}selected{{/if}}>Other</option>
+          </select>
+          <label for="gender">Gender</label>
+        </div>
+        
+        <!-- Bio -->
+        <div class="input-field">
+          <textarea id="bio" name="bio" class="materialize-textarea">{{user.bio}}</textarea>
+          <label for="bio">Bio</label>
+        </div>
+        
+        <!-- Submit Button -->
+        <button type="submit" class="btn waves-effect waves-light">Update Profile</button>
+      
+      </form>
+    </div>
+  </div>
+
+
+  <script src="/js/updateProfile.js"></script>

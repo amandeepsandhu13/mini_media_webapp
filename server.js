@@ -36,9 +36,6 @@ app.use(session(sess));
 // Handlebars setup
 const hbs = exphbs.create({ helpers });
 
-// Register partials
-hbs.handlebars.registerPartial('header', fs.readFileSync(path.join(__dirname, 'views', 'partials', 'header.handlebars'), 'utf8'));
-hbs.handlebars.registerPartial('footer', fs.readFileSync(path.join(__dirname, 'views', 'partials', 'footer.handlebars'), 'utf8'));
 
 // Set template engine
 app.engine("handlebars", hbs.engine);
