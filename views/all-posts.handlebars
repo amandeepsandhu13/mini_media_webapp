@@ -1,0 +1,10 @@
+<!-- all-posts.handlebars -->
+<h1>All Posts</h1>
+
+{{#each allPosts}}
+  <div class="post">
+    <h3>{{ title }}</h3>
+    <p>{{ content }}</p>
+    <p>Author: {{ User.username }}</p>
+  </div>
+{{/each}}
