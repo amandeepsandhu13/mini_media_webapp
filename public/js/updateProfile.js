@@ -1,25 +1,44 @@
-document.getElementById('update-profile-form').addEventListener('submit', async (event) => {
-    event.preventDefault();
-  
-    const name = document.getElementById('name').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const username = document.getElementById('username').value.trim();
-    const DOB = document.getElementById('DOB').value;
-    const gender = document.getElementById('gender').value;
-    const bio = document.getElementById('bio').value.trim();
-  
-    if (name && email && username && DOB && gender) {
-      const response = await fetch(`/api/users/${userId}`, { // Assuming userId is defined somewhere
+document.addEventListener('DOMContentLoaded', () => {
+  const updateButton = document.getElementById('updateButton');
+  const updateForm = document.getElementById('update-profile-form');
+
+  updateForm.addEventListener('submit', async (event) => {
+    event.preventDefault(); // Prevent default form submission
+
+    try {
+      const formData = {
+        name: document.getElementById('name').value,
+        username: document.getElementById('username').value,
+        DOB: document.getElementById('DOB').value,
+        gender: document.getElementById('gender').value,
+        bio: document.getElementById('bio').value
+      };
+
+      const userId = updateForm.dataset.userId;
+      const url = `/api/users/profile/${userId}`;
+
+      const response = await fetch(url, {
         method: 'PUT',
-        body: JSON.stringify({ name, email, username, DOB, gender, bio }),
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
       });
-  
-      if (response.ok) {
-        document.location.replace('/profile');
-      } else {
-        alert('Failed to update profile');
+
+      if (!response.ok) {
+        throw new Error('Failed to update profile');
       }
+
+      const responseData = await response.json();
+      console.log('Profile updated successfully:', responseData);
+      document.getElementById('updateMessage').innerText = 'Profile updated successfully'; // Display success message
+
+      // Redirect to the user profile page
+     // window.location.href = `/profile/${userId}`;
+
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      document.getElementById('updateMessage').innerText = "profile not updated"; // Display error message
     }
   });
-  
+});
