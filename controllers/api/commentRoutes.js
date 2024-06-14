@@ -21,6 +21,22 @@ router.get("/:id", async (req, res) => {
     }
 });
 
+// to delete the comment
+router.delete("/:id", async (req, res) => {
+    try {
+        const deletedComment = await Comment.destroy({
+            where: { id: req.params.id },
+        });
+        if (!deletedComment) {
+            return res.status(404).send({ message: "Comment not found" });
+        }
+
+        res.status(200).send({ message: "Comment deleted successfully" });
+    } catch (err) {
+        console.error(`The error found while deleting the comment`, err);
+    }
+});
+
 // to add the comment
 router.post("/:postid", withAuth, async (req, res) => {
     try {
@@ -35,7 +51,5 @@ router.post("/:postid", withAuth, async (req, res) => {
         console.error(`The error found while posting the comment`, err);
     }
 });
-
-// to delete the comment
 
 module.exports = router;

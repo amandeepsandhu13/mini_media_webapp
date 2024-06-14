@@ -19,6 +19,25 @@
       <p><strong>Gender:</strong> {{user.gender}}</p>
       <p><strong>Bio:</strong> {{user.bio}}</p>
       <a href="/update-profile">Edit Profile</a>
+
+       <!-- Display user's posts -->
+      <h2>User Posts</h2>
+      {{#if posts.length}}
+        <ul>
+          {{#each posts}}
+            <li>
+              <h3>{{title}}</h3>
+              <p>{{post_contents}}</p>
+              {{#if image_url}}
+                <img src="{{image_url}}" alt="Post Image">
+              {{/if}}
+              <p><small>Posted on {{date}}</small></p>
+            </li>
+          {{/each}}
+        </ul>
+      {{else}}
+        <p>No posts available.</p>
+      {{/if}}
     {{else}}
       <p>User data not available. Please log in.</p>
     {{/if}}
