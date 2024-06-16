@@ -1,6 +1,7 @@
 <!-- all-posts.handlebars -->
 <h1>All Posts</h1>
 
+
 {{#each posts}}
   <div class="post">
     <h3><a href="{{this.id}}">{{this.title }}</a></h3><a href="/profile/{{this.userId}}">{{ this.user.username }}</a>
@@ -8,3 +9,4 @@
     <p>Author: {{ this.user.username }}</p>
   </div>
 {{/each}}
+

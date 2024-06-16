@@ -1,33 +1,24 @@
 const router = require("express").Router();
-const { Post, User } = require("../../models/index");
+const { Post, User } = require("../../models");
 const { withAuth, withAuthApi } = require("../../utils/auth");
 // Route to fetch all posts data
 router.get("/", async (req, res) => {
     try {
-      const postsData = await Post.findAll({
-        include: [
-          {
-            model: User,
-            attributes: ['username'],
-          },
-        ],
-      });
-  
-      const posts = postsData.map(post => post.get({ plain: true }));
-      console.log(posts);
-      // Render the all-posts.handlebars template with the posts data
-      res.render('all-posts', { 
-        posts,
-        logged_in: req.session.logged_in 
-      });
+
+        const postData = await Post.findAll({
+            include: [{ model: User, attributes: ["name", "username"] }],
+        });
+        const posts = postData.map((post) => post.get({ plain: true }));
+        res.render("all-posts", { posts, logged_in: req.session.logged_in });
     } catch (err) {
-      console.error("Error fetching posts:", err);
-      res.status(500).json(err);
+        console.error("Error fetching posts:", err);
+        res.status(500).json(err);
+
     }
   });
 
 // getting the posts as per each user
-router.get("/:userid", async (req, res) => {
+router.get("/user/:userid", async (req, res) => {
     try {
         const userPosts = await Post.findAll({
             where: {
@@ -50,16 +41,39 @@ router.get("/:userid", async (req, res) => {
     }
 });
 
-// to add the post
-router.post("/", withAuthApi, async (req, res) => {
+// to show add post page
+router.get("/add-post", withAuthApi, async (req, res) => {
     try {
-        const newPost = await Post.create({
-            ...req.body,
-            user_id: req.session.user_id,
+        const userId = req.query.userid;
+        if (!userId) {
+            return res.status(400).json({ message: "User ID is required." });
+        }
+        res.render("add-post", { userId });
+    } catch (err) {
+        console.error(`The error while displaying the page to add post: `, err);
+        res.status(500).json({
+            message: "Failed to display add post page.",
+            error: err,
         });
+    }
+});
 
+// to add the post
+router.post("/add-post", withAuthApi, async (req, res) => {
+    try {
+        const { title, post_contents, image_url, user_id } = req.body;
+        if (!user_id) {
+            return res.status(400).json({ message: "User ID is required." });
+        }
+        const newPost = await Post.create({
+            title,
+            post_contents,
+            image_url,
+            user_id,
+        });
         res.status(200).json(newPost);
     } catch (err) {
+        console.error("Error during adding the post:", err);
         res.status(400).json(err);
     }
 });
