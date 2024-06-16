@@ -1,0 +1,9 @@
+{{#each allComments}}
+    <div class="post-comments">
+        <li>{{comment.comment_content}}</li>
+    </div>
+{{/each}}
+<form id="new-comment-form">
+    <textarea id="commentcontent" placeholder="Enter your comment"></textarea>
+    <button type="submit">Submit Comment</button>
+</form>

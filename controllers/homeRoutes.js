@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { User, Post } = require('../models');
+const { User,Comment,Post } = require('../models');
 // Import the withAuth middleware
 const { withAuth } = require('../utils/auth');
 
@@ -106,5 +106,26 @@ router.get('/update-profile/:id', withAuth, async (req, res) => {
   }
 });
 
+router.get('/comments/:id', async (req, res) => {
+  try {
+      const commentData = await Comment.findByPk(req.params.id, {
+        include: [
+          {
+            model: User,Post,
+            attributes: ['username','name'],
+          },
+        ],
+      });
+  
+      const comments = commentData.get({ plain: true });
+  
+      res.render('comments', {
+        ...comments,
+        logged_in: req.session.logged_in
+      });
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  });
 
 module.exports = router;

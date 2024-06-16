@@ -1,7 +1,7 @@
-
-  <main class="container">
+<main class="container">
     <h1>User Profile</h1>
     {{#if user}}
+
       <div class="card">
         <div class="card-content">
           <p><strong>Name:</strong> {{user.name}}</p>
@@ -32,7 +32,19 @@
         <a href="/api/posts">view All posts</a>
       </div>
 
+        <div class="posts">
+            {{#if posts.length}}
+                {{#each posts}}
+                    <div class="post">
+                        <h4>{{this.title}}</h4>
+                        <p>{{this.content}}</p>
+                        <p><small>Posted on:
+                                {{formatDate this.createdAt}}</small></p>
+                    </div>
+                {{/each}}
+            {{else}} <p>No posts to display.</p> {{/if}}
+        </div>
     {{else}}
-      <p>User data not available. Please log in.</p>
+        <p>User data not available. Please log in.</p>
     {{/if}}
-  </main>
+</main>
