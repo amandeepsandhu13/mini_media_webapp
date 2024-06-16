@@ -1,14 +1,17 @@
 const router = require("express").Router();
-const { Post } = require("../../models/index");
+const { Post, User } = require("../../models");
 const { withAuth, withAuthApi } = require("../../utils/auth");
 
 // to show all posts
 router.get("/", async (req, res) => {
     try {
-        const postsData = await Post.findAll();
-        res.status(200).json(postsData);
+        const postData = await Post.findAll({
+            include: [{ model: User, attributes: ["name", "username"] }],
+        });
+        const posts = postData.map((post) => post.get({ plain: true }));
+        res.render("all-posts", { posts, logged_in: req.session.logged_in });
     } catch (err) {
-        console.error(`The error for the program: `, err);
+        console.error("Error fetching posts:", err);
         res.status(500).json(err);
     }
 });
@@ -37,16 +40,23 @@ router.get("/:userid", async (req, res) => {
     }
 });
 
+// to show add post page
+router.get("/add-post", withAuthApi, (req, res) => {
+    res.render("add-post", { logged_in: req.session.logged_in });
+});
+
 // to add the post
-router.post("/", withAuthApi, async (req, res) => {
+router.post("/add-post", withAuthApi, async (req, res) => {
     try {
         const newPost = await Post.create({
-            ...req.body,
+            title: req.body.title,
+            post_contents: req.body.post_contents,
+            Image_url: req.body.Image_url,
             user_id: req.session.user_id,
         });
-
         res.status(200).json(newPost);
     } catch (err) {
+        console.error("Error during registration:", err);
         res.status(400).json(err);
     }
 });

@@ -1,47 +1,27 @@
-{{!-- views/user-profile.handlebars --}}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{title}}</title>
-  <link rel="stylesheet" href="/css/style.css">
-</head>
-<body>
-  {{> header}}
-  <main>
+<main class="container">
     <h1>User Profile</h1>
     {{#if user}}
-      <p><strong>Name:</strong> {{user.name}}</p>
-      <p><strong>Email:</strong> {{user.email}}</p>
-      <p><strong>Username:</strong> {{user.username}}</p>
-      <p><strong>Date of Birth:</strong> {{user.DOB}}</p>
-      <p><strong>Gender:</strong> {{user.gender}}</p>
-      <p><strong>Bio:</strong> {{user.bio}}</p>
-      <a href="/update-profile">Edit Profile</a>
+        <div class="card">
+            <div class="card-content">
+                <p><strong>Name:</strong> {{user.name}}</p>
+                <p><strong>Email:</strong> {{user.email}}</p>
+                <p><strong>Username:</strong> {{user.username}}</p>
+                <p><strong>Date of Birth:</strong> {{user.DOB}}</p>
+                <p><strong>Gender:</strong> {{user.gender}}</p>
+                <p><strong>Bio:</strong> {{user.bio}}</p>
+            </div>
+            <div class="card-action">
+                <a
+                    href="/update-profile/{{user.id}}"
+                    class="btn waves-effect waves-light"
+                >Edit Profile</a>
+            </div>
+            <h2>My posts</h2>
+            <p>Add new post</p>
+            <a href="#">view All posts</a>
+        </div>
 
-       <!-- Display user's posts -->
-      <h2>User Posts</h2>
-      {{#if posts.length}}
-        <ul>
-          {{#each posts}}
-            <li>
-              <h3>{{title}}</h3>
-              <p>{{post_contents}}</p>
-              {{#if image_url}}
-                <img src="{{image_url}}" alt="Post Image">
-              {{/if}}
-              <p><small>Posted on {{date}}</small></p>
-            </li>
-          {{/each}}
-        </ul>
-      {{else}}
-        <p>No posts available.</p>
-      {{/if}}
     {{else}}
-      <p>User data not available. Please log in.</p>
+        <p>User data not available. Please log in.</p>
     {{/if}}
-  </main>
-  {{> footer}}
-</body>
-</html>
+</main>
