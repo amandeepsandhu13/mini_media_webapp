@@ -9,13 +9,15 @@ document.addEventListener("DOMContentLoaded", () => {
             const post_contents =
                 document.getElementById("post_contents").value;
             const image_url = document.getElementById("image_url").value;
-            const user_id = document.getElementById("user_id").value; // Get user_id from hidden input
+            const user_id = document.querySelector(
+                "input[name='userId']"
+            ).value; // Get user_id from hidden input
 
             const formData = {
                 title,
                 post_contents,
                 image_url,
-                user_id, // Ensure user_id is included in formData
+                userId: user_id, // Ensure user_id is included in formData
             };
 
             const url = "/api/posts/add-post";
