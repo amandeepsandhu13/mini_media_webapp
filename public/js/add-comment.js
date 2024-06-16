@@ -2,24 +2,11 @@ document.querySelector('#new-comment-form').addEventListener('submit', async fun
     event.preventDefault();
     
     const comment_content = document.querySelector('#comentcontent').value;
-    
-    
-    //HOW TO GET id from user logged??????
-    
     const userId = window.userId;
     const postId = event.target.hasAttribute('data-id');
 
-    if (!userId) {
-        console.error('User is not logged in.');
-        return;
-      };
-  
-      if (!postId) {
-        console.error('Post ID is not found.');
-        return;
-      }
 
-    const response = await fetch(`/api/comments`, {
+    const response = await fetch(`/api/comments/${postId}/${commentId}`, {
       method: 'POST',
       body: JSON.stringify({
         comment_content,
@@ -37,3 +24,28 @@ document.querySelector('#new-comment-form').addEventListener('submit', async fun
       alert('Failed to add comment');
     }
 });
+
+// // to delete a comment
+// const deleteCommentHandler = async (event) => {
+//     if (
+//         event.target.hasAttribute("data-id") &&
+//         event.target.hasAttribute("data-postid")
+//     ) {
+//         const commentId = event.target.getAttribute("data-id");
+//         const postId = event.target.getAttribute("data-postid");
+
+//         const response = await fetch(`/api/comments/${postId}/${commentId}`, {
+//             method: "DELETE",
+//         });
+
+//         if (response.ok) {
+//             document.location.reload();
+//         } else {
+//             alert("Failed to delete comment");
+//         }
+//     }
+// };
+
+// document
+//     .querySelector(".comment-list")
+//     .addEventListener("click", deleteCommentHandler);
