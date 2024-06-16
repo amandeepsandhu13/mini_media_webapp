@@ -11,11 +11,13 @@
           <p><strong>Gender:</strong> {{user.gender}}</p>
           <p><strong>Bio:</strong> {{user.bio}}</p>
         </div>
+        {{#if isOwner}}
         <div class="card-action">
           <a href="/update-profile/{{ user.id }}" class="btn waves-effect waves-light">Edit Profile</a>
         </div>
+        {{/if}}
         <h2>My posts</h2> <p>Add new post</p>
-        <a href="#">view All posts</a>
+        <a href="/api/posts">view All posts</a>
       </div>
 
     {{else}}
