@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 "Post added successfully";
 
             // Redirect to another page after successful post creation
-            window.location.href = `/api/posts/user/${user_id}`; // Redirect to user's posts page
+            window.location.href = `/api/users/profile`; // Redirect to user's posts page
         } catch (error) {
             console.error("Error adding the post:", error);
             document.getElementById("updateMessage").innerText =
