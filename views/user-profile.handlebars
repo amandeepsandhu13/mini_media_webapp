@@ -1,24 +1,30 @@
 <main class="container">
     <h1>User Profile</h1>
     {{#if user}}
-
-      <div class="card">
-        <div class="card-content">
-          <p><strong>Name:</strong> {{user.name}}</p>
-          <p><strong>Email:</strong> {{user.email}}</p>
-          <p><strong>Username:</strong> {{user.username}}</p>
-          <p><strong>Date of Birth:</strong> {{user.DOB}}</p>
-          <p><strong>Gender:</strong> {{user.gender}}</p>
-          <p><strong>Bio:</strong> {{user.bio}}</p>
+        <div class="card">
+            <div class="card-content">
+                <p><strong>Name:</strong> {{user.name}}</p>
+                <p><strong>Email:</strong> {{user.email}}</p>
+                <p><strong>Username:</strong> {{user.username}}</p>
+                <p><strong>Date of Birth:</strong> {{user.DOB}}</p>
+                <p><strong>Gender:</strong> {{user.gender}}</p>
+                <p><strong>Bio:</strong> {{user.bio}}</p>
+            </div>
+            <div class="card-action">
+                <a
+                    href="/update-profile/{{user.id}}"
+                    class="btn waves-effect waves-light"
+                >Edit Profile</a>
+            </div>
+            <h2>My posts</h2>
+            <a href="/api/posts/add-post?userid={{user.id}}" id="addPostBtn">Add
+                new post</a>
+            <br />
+            <a href="/api/posts" id="viewAllPosts">view All posts</a>
         </div>
-        {{#if isOwner}}
-        <div class="card-action">
-          <a href="/update-profile/{{ user.id }}" class="btn waves-effect waves-light">Edit Profile</a>
-        </div>
-        {{/if}}
-        <h2>My posts</h2> <p>Add new post</p>
-        <a href="/api/posts">view All posts</a>
-      </div>
+        {{!-- {{Post.title}} --}}
+        <!-- all-posts.handlebars -->
+        <h1>All Posts</h1>
 
         <div class="posts">
             {{#if posts.length}}
