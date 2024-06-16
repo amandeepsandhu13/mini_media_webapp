@@ -41,8 +41,15 @@ router.get("/:userid", async (req, res) => {
 });
 
 // to show add post page
-router.get("/add-post", withAuthApi, (req, res) => {
-    res.render("add-post", { logged_in: req.session.logged_in });
+router.get("/add-post", async (req, res) => {
+    try {
+        res.render("add-post");
+    } catch (err) {
+        console.error(
+            `The error while displaying the page to add post : `,
+            err
+        );
+    }
 });
 
 // to add the post
@@ -56,7 +63,7 @@ router.post("/add-post", withAuthApi, async (req, res) => {
         });
         res.status(200).json(newPost);
     } catch (err) {
-        console.error("Error during registration:", err);
+        console.error("Error during adding the post:", err);
         res.status(400).json(err);
     }
 });

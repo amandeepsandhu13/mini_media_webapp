@@ -9,14 +9,14 @@ const getPosts = () => {
 };
 
 // show the posts for the current user
-const getPostsByCurrentUser = (userid) => {
-    fetch(`api/posts/:${userid}`, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-        },
-    });
-};
+// const getPostsByCurrentUser = (userid) => {
+//     fetch(`api/posts/:${userid}`, {
+//         method: "GET",
+//         headers: {
+//             "Content-Type": "application/json",
+//         },
+//     });
+// };
 
 // delete the post
 const deletePost = (id) =>

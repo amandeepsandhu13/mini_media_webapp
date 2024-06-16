@@ -2,9 +2,9 @@
 <h1>All Posts</h1>
 
 {{#each allPosts}}
-  <div class="post">
-    <h3>{{ title }}</h3>
-    <p>{{ content }}</p>
-    <p>Author: {{ User.username }}</p>
-  </div>
+    <div class="post">
+        <h3>{{this.title}}</h3>
+        <p><a href="api/comments">{{this.post_contents}}</p>
+        <p>Author: {{User.username}}</p>
+    </div>
 {{/each}}

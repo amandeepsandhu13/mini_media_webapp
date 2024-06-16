@@ -3,11 +3,10 @@ const { Comment, Post } = require("../../models/index");
 const { withAuth, withAuthApi } = require("../../utils/auth");
 
 // to see all the comments
-
 router.post("/", async (req, res) => {
     try {
         const newComment = await Comment.create({
-            ...req.body,
+            comment_content: req.body.comment_content,
             userId: req.session.userId,
         });
 
