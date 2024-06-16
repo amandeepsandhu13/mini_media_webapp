@@ -60,15 +60,15 @@ router.get("/add-post", withAuthApi, async (req, res) => {
 // to add the post
 router.post("/add-post", withAuthApi, async (req, res) => {
     try {
-        const { title, post_contents, image_url, user_id } = req.body;
-        if (!user_id) {
+        const { title, post_contents, image_url, userId } = req.body;
+        if (!userId) {
             return res.status(400).json({ message: "User ID is required." });
         }
         const newPost = await Post.create({
             title,
             post_contents,
             image_url,
-            user_id,
+            userId,
         });
         res.status(200).json(newPost);
     } catch (err) {
