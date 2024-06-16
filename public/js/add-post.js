@@ -1,18 +1,24 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const updateForm = document.getElementById("addPostForm");
+    const addPostForm = document.getElementById("addPostForm");
 
-    updateForm.addEventListener("submit", async (event) => {
+    addPostForm.addEventListener("submit", async (event) => {
         event.preventDefault(); // Prevent default form submission
 
         try {
+            const title = document.getElementById("title").value;
+            const post_contents =
+                document.getElementById("post_contents").value;
+            const image_url = document.getElementById("image_url").value;
+            const user_id = document.getElementById("user_id").value; // Get user_id from hidden input
+
             const formData = {
-                title: document.getElementById("title").value,
-                post_contents: document.getElementById("post_contents").value,
-                image_url: document.getElementById("image_url").value,
+                title,
+                post_contents,
+                image_url,
+                user_id, // Ensure user_id is included in formData
             };
 
-            // const userId = updateForm.dataset.userId; //to find
-            const url = `/api/posts/add-post`;
+            const url = "/api/posts/add-post";
 
             const response = await fetch(url, {
                 method: "POST",
@@ -23,20 +29,20 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             if (!response.ok) {
-                throw new Error("Failed to update profile");
+                throw new Error("Failed to add post");
             }
 
             const responseData = await response.json();
             console.log("Post added successfully:", responseData);
             document.getElementById("updateMessage").innerText =
-                "Post successfully"; // Display success message
+                "Post added successfully";
 
-            // Redirect to the user profile page
-            // window.location.href = `/profile/${userId}`;
+            // Redirect to another page after successful post creation
+            window.location.href = `/api/posts/user/${user_id}`; // Redirect to user's posts page
         } catch (error) {
             console.error("Error adding the post:", error);
             document.getElementById("updateMessage").innerText =
-                "profile not updated"; // Display error message
+                "Error adding post";
         }
     });
 });

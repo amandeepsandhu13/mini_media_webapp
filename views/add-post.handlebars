@@ -3,7 +3,7 @@
         <h2>Add Post</h2>
         <div id="updateMessage"></div>
         <form id="addPostForm" method="POST" action="/api/posts/add-post">
-
+            <input type="hidden" name="user_id" value="{{userId}}" />
             <!-- Title -->
             <div class="input-field">
                 <input
@@ -49,4 +49,4 @@
     </div>
 </div>
 
-<script src="/public/js/addPost.js"></script>
+<script src="/public/js/add-post.js"></script>

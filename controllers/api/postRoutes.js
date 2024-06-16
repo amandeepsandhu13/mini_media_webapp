@@ -41,25 +41,34 @@ router.get("/user/:userid", async (req, res) => {
 });
 
 // to show add post page
-router.get("/add-post", async (req, res) => {
+router.get("/add-post", withAuthApi, async (req, res) => {
     try {
-        res.render("add-post");
+        const userId = req.query.userid;
+        if (!userId) {
+            return res.status(400).json({ message: "User ID is required." });
+        }
+        res.render("add-post", { userId });
     } catch (err) {
-        console.error(
-            `The error while displaying the page to add post : `,
-            err
-        );
+        console.error(`The error while displaying the page to add post: `, err);
+        res.status(500).json({
+            message: "Failed to display add post page.",
+            error: err,
+        });
     }
 });
 
 // to add the post
 router.post("/add-post", withAuthApi, async (req, res) => {
     try {
+        const { title, post_contents, image_url, user_id } = req.body;
+        if (!user_id) {
+            return res.status(400).json({ message: "User ID is required." });
+        }
         const newPost = await Post.create({
-            title: req.body.title,
-            post_contents: req.body.post_contents,
-            Image_url: req.body.Image_url,
-            user_id: req.session.user_id,
+            title,
+            post_contents,
+            image_url,
+            user_id,
         });
         res.status(200).json(newPost);
     } catch (err) {
