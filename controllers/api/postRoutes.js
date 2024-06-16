@@ -1,10 +1,10 @@
 const router = require("express").Router();
 const { Post, User } = require("../../models");
 const { withAuth, withAuthApi } = require("../../utils/auth");
-// Route to fetch all posts data
+
+// to show all posts
 router.get("/", async (req, res) => {
     try {
-
         const postData = await Post.findAll({
             include: [{ model: User, attributes: ["name", "username"] }],
         });
@@ -13,9 +13,8 @@ router.get("/", async (req, res) => {
     } catch (err) {
         console.error("Error fetching posts:", err);
         res.status(500).json(err);
-
     }
-  });
+});
 
 // getting the posts as per each user
 router.get("/user/:userid", async (req, res) => {

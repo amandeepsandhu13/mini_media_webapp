@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const { User, Post } = require("../../models");
+const forgotPasswordRoutes = require("./forgotPasswordRoutes");
 const { withAuthApi, withAuth } = require("../../utils/auth");
 
 // Register new user
@@ -30,30 +31,35 @@ router.post("/register", async (req, res) => {
 
 // Login user
 router.post("/login", async (req, res) => {
-  try {
-    const userData = await User.findOne({ where: { email: req.body.email } });
+    try {
+        const userData = await User.findOne({
+            where: { email: req.body.email },
+        });
 
-    if (!userData) {
-      return res.status(400).json({ message: 'Incorrect email or password, please try again' });
+        if (!userData) {
+            return res.render("login", {
+                errorMessage: "Incorrect email or password, please try again",
+            });
+        }
+
+        const validPassword = await userData.checkPassword(req.body.password);
+
+        if (!validPassword) {
+            return res.render("login", {
+                errorMessage: "Incorrect email or password, please try again",
+            });
+        }
+
+        req.session.save(() => {
+            req.session.user_id = userData.id;
+            req.session.logged_in = true;
+            // Redirect to the profile page after successful login
+            res.redirect("/profile");
+        });
+    } catch (err) {
+        console.error("Error during login:", err);
+        res.status(400).json(err);
     }
-
-    const validPassword = await userData.checkPassword(req.body.password);
-
-    if (!validPassword) {
-      console.log("Invalid password");
-      return res.status(400).json({ message: 'Incorrect email or password, please try again' });
-    }
-
-    req.session.save(() => {
-      req.session.user_id = userData.id;
-      req.session.logged_in = true;
-      // Redirect to the profile page after successful login
-      res.redirect("/profile");      
-    });
-  } catch (err) {
-    console.error("Error during login:", err);
-    res.status(500).json({ message: 'Server error, please try again later.' });
-  }
 });
 
 // Logout user with GET request
@@ -101,6 +107,21 @@ router.get("/:id", withAuth, async (req, res) => {
     } catch (err) {
         console.error("Error fetching user profile:", err);
         res.status(500).json(err);
+    }
+});
+
+// to get all the posts created by the user
+router.get("/user/:userId", async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        const posts = await Post.findAll({
+            where: { userId },
+            include: [{ model: User, attributes: ["username"] }],
+        });
+        res.status(200).json(posts);
+    } catch (err) {
+        console.error("Error fetching user posts:", err);
+        res.status(500).json({ error: "Failed to fetch user posts" });
     }
 });
 

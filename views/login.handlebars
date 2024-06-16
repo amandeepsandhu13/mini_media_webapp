@@ -1,12 +1,11 @@
+
   <div class="row">
     <div class="col s12 m6 offset-m3">
-      <div class="card-panel">       
-        <div class="errorMessageContainer" id="errorMessageContainer"></div>
-      {{#if errorMessage}}
-        <div class="error-message">Error: {{errorMessage}}</div>
-      {{/if}}
-        <h4 class="center-align">Login</h4>         
-
+      <div class="card-panel">
+        {{#if errorMessage}}
+          <div class="error-message">{{errorMessage}}</div>
+        {{/if}}
+        <h4 class="center-align">Login</h4>
         <form id="login-form" method="POST" action="/api/users/login">
           <div class="input-field">
             <input
@@ -35,10 +34,10 @@
             >Login</button>
           </div>
           <div class="center-align">
+            {{! <a href="/api/users/forgot-password">Forgot Password?</a> }}
           </div>
         </form>
       </div>
     </div>
   </div>
-  <script src="js/login.js"></script>
-
+<script src="js/login.js"></script>
