@@ -5,6 +5,12 @@
     "image_url": "'ddddd.jpg'",
     "date": "June 22, 2021 09:00:00",  
     "userId":"001"
+  },
+  {
+    "title": "post 2",
+    "post_contents": "Look!! What I'm eating",
+    "image_url": "'ddddd.jpg'",
+    "date": "June 22, 2021 09:00:00",  
+    "userId":"002"
   }
-
 ]

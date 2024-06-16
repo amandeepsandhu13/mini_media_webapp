@@ -10,5 +10,17 @@
     "bio":"love my toys",
     "dateCreated":"06/07/2024"
 
+  },
+
+  {
+    "username": "abc123",
+  "email": "abc132@example.com",
+  "password": "password123",
+  "name": "John Doe1",
+  "DOB": "1990-01-01",
+  "address": "123 Main St, Anytown, USA",
+  "gender": "female",
+  "bio": "Hello, kaur"
   }
 ]
+

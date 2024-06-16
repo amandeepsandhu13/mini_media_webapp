@@ -1,0 +1,52 @@
+<div class="row">
+    <div class="col s12">
+        <h2>Add Post</h2>
+        <div id="updateMessage"></div>
+        <form id="addPostForm" method="POST" action="/api/posts/add-post">
+            <input type="hidden" name="userId" value="{{userId}}" />
+            <!-- Title -->
+            <div class="input-field">
+                <input
+                    type="text"
+                    id="title"
+                    name="title"
+                    class="validate"
+                    value="{{post.title}}"
+                    required
+                />
+                <label for="title">Title</label>
+            </div>
+
+            <!-- Post_contents -->
+            <div class="input-field">
+                <input
+                    type="text"
+                    id="post_contents"
+                    name="post_contents"
+                    class="validate"
+                    value="{{post.post_contents}}"
+                    required
+                />
+                <label for="post_contents">Post_contents</label>
+            </div>
+
+            <!-- Image url -->
+            <div class="input-field">
+                <input
+                    type="text"
+                    id="image_url"
+                    name="image_url"
+                    value="{{post.image_url}}"
+                    required
+                />
+                <label for="image_url">Image url</label>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn waves-effect waves-light">Add Post</button>
+
+        </form>
+    </div>
+</div>
+
+<script src="/public/js/add-post.js"></script>
