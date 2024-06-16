@@ -1,17 +1,30 @@
 const router = require("express").Router();
-const { Post } = require("../../models/index");
+const { Post, User } = require("../../models/index");
 const { withAuth, withAuthApi } = require("../../utils/auth");
-
-// to show all posts
+// Route to fetch all posts data
 router.get("/", async (req, res) => {
     try {
-        const postsData = await Post.findAll();
-        res.status(200).json(postsData);
+      const postsData = await Post.findAll({
+        include: [
+          {
+            model: User,
+            attributes: ['username'],
+          },
+        ],
+      });
+  
+      const posts = postsData.map(post => post.get({ plain: true }));
+      console.log(posts);
+      // Render the all-posts.handlebars template with the posts data
+      res.render('all-posts', { 
+        posts,
+        logged_in: req.session.logged_in 
+      });
     } catch (err) {
-        console.error(`The error for the program: `, err);
-        res.status(500).json(err);
+      console.error("Error fetching posts:", err);
+      res.status(500).json(err);
     }
-});
+  });
 
 // getting the posts as per each user
 router.get("/:userid", async (req, res) => {
