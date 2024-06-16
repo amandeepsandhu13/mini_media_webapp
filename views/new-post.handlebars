@@ -1,0 +1,28 @@
+<section id="add" class="container">
+    <div class="form-wrap">
+      <h1>Add A </h1>
+      {{#each errors}}
+        <div class="error">
+          <p>{{text}}</p>
+        </div>
+      {{/each}}
+      <form action="/all-posts/add" method="POST">
+        <div class="input-group">
+          <label for="title">Post Title</label>
+          <input type="text" name="title" id="title" class="input-box" placeholder="eg. Small Wordpress website, React developer"
+            maxlength="100" value={{title}}>
+        </div>
+        <div class="input-group">
+          <label for="content">Content:</label>
+          <input type="text" name="content" id="technologies" class="input-box" placeholder="eg. javascript, react, PHP"
+          maxlength="3000" value={{content}}>
+        </div>
+        <div class="input-group">
+          <label for="content">Content:</label>
+          <input type="text" name="content" id="contactemail" class="input-box" placeholder="eg. javascript, react, PHP"
+          maxlength="40" value={{author}}>
+        </div>
+        <input type="submit" value="Add Gig" class="btn btn-reverse">
+      </form>
+    </div>
+  </section>
