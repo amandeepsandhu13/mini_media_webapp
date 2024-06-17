@@ -1,6 +1,6 @@
-# Mini_Media_webapp
+## Minimedia
 
-## User Story
+  ## User Story
 
 ```
 As a registered user of the web application,
@@ -25,8 +25,33 @@ WHEN you enter the add post page
 THEN you will be given your personal space to share whatever you want
 ```
 
-## Links
+   ## Installation 
+  To install necessary dependencies, run the following command:
 
 ```
-git repo: https://github.com/amandeepsandhu13/mini_media_webap
+   npm i
+
 ```
+
+
+  ## License 
+  This project is licensed under MIT license  
+
+
+  ## Group
+
+ You can find more of our work at: 
+
+[Amandeep Kaur sandhu](https://github.com/amandeepsandhu13).
+
+[UDIT SACHDEVA](https://github.com/usachdeva).
+
+[jaquelineesteves](https://github.com/jaquelineesteves/).
+
+[Xavier Andrés Mendoza](https://github.com/MaixusBetter).
+
+[Alexis Brown-Renshaw](https://github.com/KatLeviathan).
+
+
+  ## Deployed page
+  https://mini-media-webapp.onrender.com
