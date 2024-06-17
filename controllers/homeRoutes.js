@@ -1,7 +1,9 @@
 const router = require("express").Router();
 const { User,Comment,Post } = require('../models');
+const { Op } = require("sequelize");
+
 // Import the withAuth middleware
-const { withAuth } = require('../utils/auth');
+const { withAuth, withAuthApi } = require('../utils/auth');
 
 router.get('/', async (req, res) => {
   res.render('login', {
@@ -30,22 +32,30 @@ router.get('/profile', withAuth, async (req, res) => {
   try {
     const userData = await User.findByPk(req.session.user_id, {
       attributes: { exclude: ['password'] },
+      include: [{ model: Post }],
     });
+
+    if (!userData) {
+      return res.status(404).render('404', { message: 'User not found' });
+    }
 
     const user = userData.get({ plain: true });
+    const userPosts = userData.Posts ? userData.Posts.map(post => post.get({ plain: true })) : [];
 
-    // Determine if logged-in user owns the profile being viewed
     const isOwner = req.session.user_id === user.id;
-    res.render('user-profile', { 
+
+    res.render('user-profile', {
       user,
+      posts: userPosts,
       isOwner,
-      logged_in: req.session.logged_in
+      logged_in: req.session.logged_in,
     });
   } catch (err) {
-    console.log('login failed');
+    console.error('Error fetching user profile:', err);
     res.status(500).json(err);
   }
 });
+
 
 router.get('/profile/:userId', withAuth, async (req, res) => {
   try {
@@ -127,5 +137,47 @@ router.get('/comments/:id', async (req, res) => {
       res.status(500).json(err);
     }
   });
+
+  
+// to show all posts
+router.get("/posts", async (req, res) => {
+  try {
+    const twoDaysAgo = new Date();
+    twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
+
+    const postData = await Post.findAll({
+        where: {
+            date: {
+                [Op.gte]: twoDaysAgo
+            }
+        },
+          include: [{ model: User, attributes: ["name", "username"] }],
+          order: [['date', 'DESC']],
+      });
+      const posts = postData.map((post) => post.get({ plain: true }));
+      res.render("all-posts", { posts, logged_in: req.session.logged_in });
+  } catch (err) {
+      console.error("Error fetching posts:", err);
+      res.status(500).json(err);
+  }
+});
+
+// to show add post page
+router.get('/add-post', withAuthApi, async (req, res) => {
+  try {
+      const userId = req.query.userid;
+      if (!userId) {
+          return res.status(400).json({ message: "User ID is required." });
+      }
+      res.render("add-post", { userId });
+  } catch (err) {
+      console.error(`Error displaying add post page: `, err);
+      res.status(500).json({
+          message: "Failed to display add post page.",
+          error: err,
+      });
+  }
+});
+
 
 module.exports = router;
