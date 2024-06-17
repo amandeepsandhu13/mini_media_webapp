@@ -3,7 +3,7 @@
   {{#each allcomments as |comment|}}
   <a href="/comments/{{comment.id}}">
     <p>{{comment.comment_content}}</p>
-    <p> by {{comment.user.name}} on {{comment.dateCreated}}</p>
+    <p> by {{comment.user.name}} on {{formatDate comment.dateCreated}}</p>
   </a>
   <hr>
   {{/each}}
