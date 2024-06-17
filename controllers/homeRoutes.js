@@ -137,16 +137,18 @@ router.get('/comments', async (req, res) => {
   }
 });
 router.get('/comments/:id', async (req, res) => {
+  
   try {
+    console.log("aquii");
       const commentData = await Comment.findByPk(req.params.id, {
         include: [
           {
-            model: User,Post,
+            model: User,
             attributes: ['username','name'],
           },
         ],
       });
-  
+      
       const comments = commentData.get({ plain: true });
   
       res.render('commentsbyid', {
