@@ -4,8 +4,11 @@ const { withAuthApi, withAuth } = require("../../utils/auth");
 
 // Register new user
 router.post("/register", async (req, res) => {
+    
     try {
-        //const hashedPassword = await bcrypt.hash(req.body.password, 10);
+       // const hashedPassword = await bcrypt.hash(req.body.password, 10);
+
+        // Create a new user in the database
         const newUser = await User.create({
             email: req.body.email,
             password: req.body.password,
@@ -14,19 +17,23 @@ router.post("/register", async (req, res) => {
             DOB: req.body.DOB,
             gender: req.body.gender,
             bio: req.body.bio,
+            
         });
 
+        // Set session variables
+        req.session.user_id = newUser.id;
+        req.session.logged_in = true;
+        console.log(newUser);
+        // Save the session and respond with the new user data
         req.session.save(() => {
-            req.session.user_id = newUser.id;
-            req.session.logged_in = true;
-
             res.status(200).json(newUser);
         });
     } catch (err) {
         console.error("Error during registration:", err);
-        res.status(400).json(err);
+        res.status(400).json(err); // Respond with the error details
     }
 });
+
 
 // Login user
 router.post("/login", async (req, res) => {

@@ -6,8 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         try {
             const title = document.getElementById("title").value;
-            const post_contents =
-                document.getElementById("post_contents").value;
+            const post_contents = document.getElementById("post_contents").value;
             const image_url = document.getElementById("image_url").value;
             const user_id = document.querySelector(
                 "input[name='userId']"
@@ -17,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 title,
                 post_contents,
                 image_url,
-                userId: user_id, // Ensure user_id is included in formData
+                userId: user_id, 
             };
 
             const url = "/api/posts/add-post";
@@ -31,16 +30,16 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             if (!response.ok) {
-                throw new Error("Failed to add post");
+                const errorResponse = await response.text();
+                throw new Error(errorResponse);
+              }
+              if (response.ok) {
+                window.location.replace('/profile');
+            } else {
+                const errorData = await response.json();
+                console.error('Error adding the post:', errorData);
             }
 
-            const responseData = await response.json();
-            console.log("Post added successfully:", responseData);
-            document.getElementById("updateMessage").innerText =
-                "Post added successfully";
-
-            // Redirect to another page after successful post creation
-            window.location.href = `/api/users/profile`; // Redirect to user's posts page
         } catch (error) {
             console.error("Error adding the post:", error);
             document.getElementById("updateMessage").innerText =
