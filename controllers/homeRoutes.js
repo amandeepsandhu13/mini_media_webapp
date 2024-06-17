@@ -106,6 +106,32 @@ router.get('/update-profile/:id', withAuth, async (req, res) => {
   }
 });
 
+
+ 
+router.get('/comments', async (req, res) => {
+  try {
+    const commentData = await Comment.findAll({
+      include: [
+        {
+          model: User,Post,
+          attributes: ['username','name'],
+        },
+      ],
+    });
+
+    const allcomments = commentData.map((Comment) =>
+      Comment.get({ plain: true })
+    );
+
+    res.render('comments', {
+      allcomments,
+      loggedIn: req.session.loggedIn,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
 router.get('/comments/:id', async (req, res) => {
   try {
       const commentData = await Comment.findByPk(req.params.id, {
@@ -119,7 +145,7 @@ router.get('/comments/:id', async (req, res) => {
   
       const comments = commentData.get({ plain: true });
   
-      res.render('comments', {
+      res.render('commentsbyid', {
         ...comments,
         logged_in: req.session.logged_in
       });
@@ -127,5 +153,6 @@ router.get('/comments/:id', async (req, res) => {
       res.status(500).json(err);
     }
   });
+  
 
 module.exports = router;
