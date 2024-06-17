@@ -23,7 +23,6 @@ router.post("/register", async (req, res) => {
         // Set session variables
         req.session.user_id = newUser.id;
         req.session.logged_in = true;
-        console.log(newUser);
         // Save the session and respond with the new user data
         req.session.save(() => {
             res.status(200).json(newUser);
@@ -51,11 +50,12 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ message: 'Incorrect email or password, please try again' });
     }
 
+    req.session.user_id = userData.id;
+    req.session.logged_in = true;
+
     req.session.save(() => {
-      req.session.user_id = userData.id;
-      req.session.logged_in = true;
       // Redirect to the profile page after successful login
-      res.redirect("/profile");      
+      res.redirect("/profile");
     });
   } catch (err) {
     console.error("Error during login:", err);
