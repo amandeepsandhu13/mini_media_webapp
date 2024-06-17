@@ -27,31 +27,25 @@ router.get('/register', (req, res) => {
 
   res.render('register');
 });
-
 router.get('/profile', withAuth, async (req, res) => {
   try {
+    // Check if user is logged in
+    if (!req.session.logged_in) {
+      return res.redirect('/login'); // Redirect to login if not logged in
+    }
     const userData = await User.findByPk(req.session.user_id, {
       attributes: { exclude: ['password'] },
       include: [{ model: Post }],
     });
 
-    if (!userData) {
-      return res.status(404).render('404', { message: 'User not found' });
-    }
-
     const user = userData.get({ plain: true });
-    const userPosts = userData.Posts ? userData.Posts.map(post => post.get({ plain: true })) : [];
 
-    const isOwner = req.session.user_id === user.id;
-
-    res.render('user-profile', {
+    res.render('user-profile', { 
       user,
-      posts: userPosts,
-      isOwner,
-      logged_in: req.session.logged_in,
+      logged_in: req.session.logged_in
     });
   } catch (err) {
-    console.error('Error fetching user profile:', err);
+    console.log('login failed');
     res.status(500).json(err);
   }
 });
@@ -155,8 +149,11 @@ router.get("/posts", async (req, res) => {
           order: [['date', 'DESC']],
       });
       const posts = postData.map((post) => post.get({ plain: true }));
-      res.render("all-posts", { posts, logged_in: req.session.logged_in });
-  } catch (err) {
+      res.render('all-posts', {
+        posts,
+        logged_in: req.session.logged_in,
+        username: req.session.username,
+      });  } catch (err) {
       console.error("Error fetching posts:", err);
       res.status(500).json(err);
   }
