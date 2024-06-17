@@ -49,8 +49,12 @@
                                 {{/if}}
                                 <span class="title">{{this.title}}</span>
                                 <p>{{this.post_contents}}</p>
-                                <p class="secondary-content">{{this.date}}</p>
+
+                                <p class="secondary-content">{{formatDate this.date}}</p>
+                               <!-- <a href="/post/{{this.id}}/comments">View Comments</a> -->
+
                                 <a class ="btn" href="/api/posts/comments/{{this.id}}">view comments</a>
+
                                 <br>
                                 <a href="javascript:void(0)" class="red-text delete-post" data-post-id="{{this.id}}">Delete Post</a>
                             </li>

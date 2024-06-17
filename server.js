@@ -6,6 +6,7 @@ const helpers = require('./utils/helpers');
 const sequelize = require("./config/connection");
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
 const routes = require("./controllers");
+const { format } = require('date-fns');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
@@ -34,7 +35,14 @@ app.use(session(sess));
 const hbs = exphbs.create({ helpers });
 
 // Set template engine
-app.engine("handlebars", hbs.engine);
+app.engine('handlebars', exphbs({
+  defaultLayout: 'main',
+  helpers: {
+    formatDate: function(dateString) {
+      return format(new Date(dateString), 'MMM dd, yyyy');
+    }
+  }
+}));
 app.set("view engine", "handlebars");
 
 // Routes

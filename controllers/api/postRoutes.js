@@ -61,25 +61,30 @@ router.post('/add-post', withAuthApi, async (req, res) => {
     }
   });
 
-// to delete the post
-router.delete("/:id", withAuth, async (req, res) => {
+// DELETE route to delete a post
+router.delete('/:postId/delete', withAuthApi, async (req, res) => {
     try {
-        const postData = await Post.destroy({
-            where: {
-                id: req.params.id,
-                user_id: req.session.user_id,
-            },
-        });
-
-        if (!postData) {
-            res.status(404).json({ message: "No post found with this id!" });
-            return;
+        const postId = req.params.id;
+        const userId = req.session.userId;
+        // Find the post by postId
+        const post = await Post.findOne({ _id: postId });
+        
+        if (!post) {
+            return res.status(404).json({ error: 'Post not found' });
+        }
+        
+         // Check if the logged-in user is the owner of the post
+         if (post.userId.toString() !== req.session.userId) {
+            return res.status(403).json({ error: 'You are not authorized to delete this post' });
         }
 
-        res.status(200).json(postData);
+        // Perform deletion
+        await post.remove();
+
+        res.json({ message: 'Post deleted successfully' });
     } catch (err) {
-        console.error(`The error found in the app : ` + err);
-        res.status(500).json(err);
+        console.error(err);
+        res.status(500).json({ error: 'Internal server error' });
     }
 });
 
@@ -112,4 +117,5 @@ router.get('/comments/:id', async (req, res) => {
         res.status(500).json(err);
       }
     });
+
 module.exports = router;
