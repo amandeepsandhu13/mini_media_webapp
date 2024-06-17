@@ -7,7 +7,7 @@
         <div class="card-content">
           <span class="card-title">{{this.title}}</span>
           <p>{{this.post_contents}}</p>
-          <p>Author: {{this.user.username}}</p>
+          <p>Author: <a href="/profile/{{this.user.id}}">{{this.user.username}}</a></p>
         </div>
         {{#if this.image_url}}
           <div class="card-image">

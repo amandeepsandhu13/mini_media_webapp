@@ -83,8 +83,8 @@ router.delete('/:postId/delete', withAuthApi, async (req, res) => {
 
         res.json({ message: 'Post deleted successfully' });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Internal server error' });
+        console.error(`The error found in the app : ` + err);
+        res.status(500).json(err);
     }
 });
 
