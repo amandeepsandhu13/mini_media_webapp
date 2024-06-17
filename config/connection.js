@@ -8,8 +8,14 @@ const sequelize = process.env.DB_URL
     process.env.DB_USER,
     process.env.DB_PASSWORD,
     {
-      host: 'localhost',
+      //host: 'localhost',
       dialect: 'postgres',
+      dialectOptions: {
+        ssl: {
+          require: true, // Enable SSL
+          rejectUnauthorized: false, // This is typically set to false for self-signed certificates
+        }
+      },
     }
   );
 
