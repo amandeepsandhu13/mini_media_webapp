@@ -1,6 +1,6 @@
 [
+  
   {
-    
     "email":"dogs@animal.com",
     "username": "Bethoven",
     "password":"fhfFf123",
@@ -8,6 +8,17 @@
     "DOB":"06/07/2021",
     "gender":"male",
     "bio":"love my toys",
+    "dateCreated":"06/07/2024"
+  },
+  {
+    
+    "email":"group1@UofT.com",
+    "username": "minimedia",
+    "password":"Testrun1",
+    "name":"group 1 minimedia",
+    "DOB":"06/08/2021",
+    "gender":"other",
+    "bio":"team 1 ",
     "dateCreated":"06/07/2024"
 
   },
