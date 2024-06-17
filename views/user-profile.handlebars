@@ -19,16 +19,10 @@
         <div class="card-content blue-grey darken-1 white-text">
           <span class="card-title">Profile Details</span>
           <ul class="collection">
-            <li class="collection-item"><strong>Name:</strong>
+             <li class="collection-item"><strong>Name:</strong>
               {{user.name}}</li>
             <li class="collection-item"><strong>Email:</strong>
               {{user.email}}</li>
-            <li class="collection-item"><strong>Username:</strong>
-              {{user.username}}</li>
-            <li class="collection-item"><strong>Date of Birth:</strong>
-              {{user.DOB}}</li>
-            <li class="collection-item"><strong>Gender:</strong>
-              {{user.gender}}</li>
             <li class="collection-item"><strong>Bio:</strong> {{user.bio}}</li>
           </ul>
         </div>
@@ -41,34 +35,32 @@
       </div>
     </div>
   </div>
-
   <!-- Display User Posts -->
-  {{#if user.posts}}
-    <div class="row">
-      <div class="col s12 m8 offset-m2">
-        <ul class="collection">
-          {{#each user.posts}}
-            <li class="collection-item avatar">
-              {{#if this.image_url}}
-                <img src="{{this.image_url}}" alt="Post Image" class="circle" />
-              {{else}}
-                <i class="material-icons circle blue">insert_photo</i>
-              {{/if}}
-              <span class="title">{{this.title}}</span>
-              <p>{{{this.post_contents}}}</p>
-              <p class="secondary-content">{{this.date}}</p>
-            </li>
-          {{/each}}
-        </ul>
-      </div>
-    </div>
-  {{else}}
-    <div class="row">
-      <div class="col s12 m8 offset-m2 center-align">
-        <p>No posts found.</p>
-      </div>
-    </div>
-  {{/if}}
+        {{#if user.posts}}
+            <div class="row">
+                <div class="col s12 m8 offset-m2">
+                    <ul class="collection">
+                        {{#each user.posts}}
+                            <li class="collection-item avatar">
+                                {{#if this.image_url}}
+                                    <img src="{{this.image_url}}" alt="Post Image" class="circle">
+                                {{else}}
+                                    <i class="material-icons circle blue">insert_photo</i>
+                                {{/if}}
+                                <span class="title">{{this.title}}</span>
+                                <p>{{this.post_contents}}</p>
+                                <p class="secondary-content">{{this.date}}</p>
+                                <a href="/post/{{this.id}}/comments">View Comments</a>
+                                <br>
+                                <a href="javascript:void(0)" class="red-text delete-post" data-post-id="{{this.id}}">Delete Post</a>
+                            </li>
+                        {{/each}}
+                    </ul>
+                </div>
+            </div>
+        {{else}}
+            <p>No posts found.</p>
+        {{/if}}
 
 {{else}}
   <div class="row">
@@ -77,3 +69,4 @@
     </div>
   </div>
 {{/if}}
+<script src="/js/delete-post.js"></script>
