@@ -16,6 +16,18 @@
     "userId": "2",
     "postId":"1",
     "dateCreated":"'06/07/2024"
+  },
+  {
+    "comment_content": "that's funny",
+    "userId": "1",
+    "postId":"2",
+    "dateCreated":"'06/07/2024"
+  },
+  {
+    "comment_content": "that's funny",
+    "userId": "2",
+    "postId":"1",
+    "dateCreated":"'06/07/2024"
   }
 
 ]
