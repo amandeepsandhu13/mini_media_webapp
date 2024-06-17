@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { Post, User } = require("../../models");
+const { Post, User, Comment } = require("../../models");
 const { withAuth, withAuthApi } = require("../../utils/auth");
 
 // to show all posts GET /api/posts
@@ -83,10 +83,38 @@ router.delete('/:postId/delete', withAuthApi, async (req, res) => {
 
         res.json({ message: 'Post deleted successfully' });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Internal server error' });
+        console.error(`The error found in the app : ` + err);
+        res.status(500).json(err);
     }
 });
 
-
+router.get('/comments/:id', async (req, res) => {
+    try {
+        const commentData = await Comment.findByPk(req.params.id, {
+            include: [
+                {
+                  model: User,
+                  attributes: ['id', 'username', 'name',],
+                },
+                {
+                    model: Post,
+                    attributes: ['id'],
+                    include: {
+                        model: User,
+                        attributes: ['id', 'username']
+                    }
+                },
+              ],
+        });
+        console.log(commentData);
+        const comments = commentData.get({ plain: true });
+    
+        res.render('commentsbyid', {
+          ...comments,
+          logged_in: req.session.logged_in
+        });
+      } catch (err) {
+        res.status(500).json(err);
+      }
+    });
 module.exports = router;
