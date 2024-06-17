@@ -15,12 +15,11 @@ router.post("/register", async (req, res) => {
             gender: req.body.gender,
             bio: req.body.bio,
         });
-
+          // Save session and respond
+          req.session.user_id = newUser.id;
+          req.session.logged_in = true;
         req.session.save(() => {
-            req.session.user_id = newUser.id;
-            req.session.logged_in = true;
-
-            res.status(200).json(newUser);
+           res.status(200).json(newUser);
         });
     } catch (err) {
         console.error("Error during registration:", err);
