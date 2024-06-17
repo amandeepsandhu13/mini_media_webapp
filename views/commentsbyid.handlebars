@@ -1,4 +1,4 @@
-
+{{#if comment_content}}
 <div class="text-center">
   <h5>Comments</h5>
     <p>{{comment_content}}</p>
@@ -6,7 +6,9 @@
             href="/profile/{{id}}"
         >{{user.username}}</a> on {{dateCreated}}</p>
   </a>
-
+  {{else}}
+  <p>no comments found</p>
+{{/if}}
   <hr>
 </div>
 <div class="row">
