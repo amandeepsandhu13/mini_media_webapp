@@ -13,7 +13,7 @@ main {
 }
 
 .container {
-  margin-top: 5%;
+  margin-top: 2%; /* Reduce the top margin to move content up */
 }
 
 .footer {
@@ -79,3 +79,70 @@ header.blue {
   padding: 10px 0; /* Adjust padding as needed */
   margin: 0; /* Reset margin */
 }
+
+.card-image img {
+  height: 200px; /* Set a fixed height or use max-height */
+  object-fit: cover; /* Ensures the image covers the container */
+  width: 100%; /* Makes the image full width */
+}
+
+.card {
+  margin-bottom: 20px; /* Spacing between cards */
+  margin-top: 20px;
+}
+
+.collection .collection-item.avatar {
+  padding-left: 80px;
+}
+
+/* Adjust margins for specific sections */
+.center-align {
+  margin-top: 10px; /* Reduce the margin top for center-aligned text */
+}
+
+.post-link,
+.addNewPostbtn {
+  margin-bottom: 20px; /* Add space between buttons and other content */
+}
+
+/* Additional Styles for Update Profile Page */
+.main-container {
+  margin-top: 5%;
+}
+
+#updateMessage {
+  margin-top: 20px;
+}
+
+h2.center-align {
+  margin-bottom: 30px;
+}
+
+input[type="date"].datepicker {
+  margin-bottom: 20px;
+}
+
+.materialize-textarea {
+  height: 100px;
+}
+
+.card-content {
+  padding: 20px;
+}
+
+.collection {
+  margin-bottom: 0; /* Remove default bottom margin for the list */
+}
+
+.collection-item {
+  border: none; /* Remove borders around each list item */
+  padding: 8px 0; /* Adjust padding as needed */
+  font-size: 16px; /* Adjust font size */
+  color: #131111; /* Adjust text color */
+}
+
+.card-title {
+  font-size: 1.5rem; /* Adjust title font size */
+  margin-bottom: 15px; /* Add spacing below title */
+}
+
