@@ -55,22 +55,6 @@ router.post('/add-post', withAuthApi, async (req, res) => {
       });
       res.redirect(`/profile`);
 
-    //   // Fetch the user data including the new post
-    //   const userData = await User.findByPk(userId, {
-    //     include: [{ model: Post }],
-    //   });
-    //   const user = userData.get({ plain: true });
-  
-    //   // Determine if logged-in user owns the profile being viewed
-    //   const isOwner = req.session.user_id === user.id;
-  
-    //   // Render the user-profile page with the user and posts data
-    //   res.render('user-profile', {
-    //     user,
-    //     posts: user.Posts,
-    //     isOwner,
-    //     logged_in: req.session.logged_in,
-    //   });
     } catch (err) {
       console.error('Error during adding the post:', err);
       res.status(400).json(err);
