@@ -1,8 +1,8 @@
+
 document.querySelector('#new-comment-form').addEventListener('submit', async function newCommentHandler(event) {
   event.preventDefault();
 
   const comment_content = document.querySelector('#comment_content').value;
-
 
   if ( !comment_content) {
       alert('comment content is missing');
