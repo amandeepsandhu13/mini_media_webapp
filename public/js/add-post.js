@@ -1,12 +1,29 @@
 document.addEventListener("DOMContentLoaded", () => {
     const addPostForm = document.getElementById("addPostForm");
+    const imageInput = document.getElementById("image");
+    const imagePreview = document.getElementById("imagePreview");
 
+    imageInput.addEventListener("change", () => {
+        const file = imageInput.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                imagePreview.src = e.target.result;
+                imagePreview.style.display = "block";
+            };
+            reader.readAsDataURL(file);
+        } else {
+            imagePreview.src = "#";
+            imagePreview.style.display = "none";
+        }
+    });
     addPostForm.addEventListener("submit", async (event) => {
         event.preventDefault(); // Prevent default form submission
 
         try {
             const title = document.getElementById("title").value;
-            const post_contents = document.getElementById("post_contents").value;
+            const post_contents =
+                document.getElementById("post_contents").value;
             const image_url = document.getElementById("image_url").value;
             const user_id = document.querySelector(
                 "input[name='userId']"
@@ -16,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 title,
                 post_contents,
                 image_url,
-                userId: user_id, 
+                userId: user_id,
             };
 
             const url = "/api/posts/add-post";
@@ -32,14 +49,13 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!response.ok) {
                 const errorResponse = await response.text();
                 throw new Error(errorResponse);
-              }
-              if (response.ok) {
-                window.location.replace('/profile');
+            }
+            if (response.ok) {
+                window.location.replace("/profile");
             } else {
                 const errorData = await response.json();
-                console.error('Error adding the post:', errorData);
+                console.error("Error adding the post:", errorData);
             }
-
         } catch (error) {
             console.error("Error adding the post:", error);
             document.getElementById("updateMessage").innerText =
