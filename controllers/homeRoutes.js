@@ -5,11 +5,15 @@ const { Op } = require("sequelize");
 // Import the withAuth middleware
 const { withAuth, withAuthApi } = require('../utils/auth');
 
-router.get('/', async (req, res) => {
-  res.render('login', {
-    logged_in: req.session.logged_in
-  });
+router.get('/', withAuth, (req, res) => {
+  res.redirect('/profile');
 });
+
+//router.get('/', async (req, res) => {
+//  res.render('login', {
+ //   logged_in: req.session.logged_in
+ // });
+//});
 
 router.get('/login', (req, res) => {
   if (req.session.logged_in) {
