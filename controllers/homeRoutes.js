@@ -136,32 +136,9 @@ router.get('/comments', async (req, res) => {
     res.status(500).json(err);
   }
 });
-router.get('/comments/:id', async (req, res) => {
-  
-  try {
-    console.log("aquii");
-      const commentData = await Comment.findByPk(req.params.id, {
-        include: [
-          {
-            model: User,
-            attributes: ['username','name'],
-          },
-        ],
-      });
-      
-      const comments = commentData.get({ plain: true });
-  
-      res.render('commentsbyid', {
-        ...comments,
-        logged_in: req.session.logged_in
-      });
-    } catch (err) {
-      res.status(500).json(err);
-    }
-  });
-  
 
   
+
 // to show all posts
 router.get("/posts", async (req, res) => {
   try {

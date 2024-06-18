@@ -1,13 +1,18 @@
-
-<div class="text-center">
-  <h5>Comments</h5>
-    <p>{{comment_content}}</p>
-    <p> by <a
-            href="/profile/{{id}}"
-        >{{user.username}}</a> on {{formatDate dateCreated}}</p>
-  </a>
-
-  <hr>
+<h5>Comments</h5>
+{{#if id}}
+  {{#if comments.length}}
+    {{#each comments}}
+      <div class="text-center"> 
+        <p>{{comment_content}}</p>
+        <p>by <a href="/profile/{{user.id}}">{{user.username}}</a> on {{formatDate dateCreated}}</p>
+        <hr>
+      </div>
+    {{/each}}
+  {{else}}
+    <p>No comments found</p>
+  {{/if}}
+{{/if}}
+  
 </div>
 <div class="row">
     <div class="col s12">
