@@ -1,8 +1,25 @@
 module.exports = {
-  format_date: (date) => {
-    // Format date as MM/DD/YYYY
-    return date.toLocaleDateString();
-  },
+  formatDate(date) {
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const now = new Date();
+    const diffMs = now - date; // difference in milliseconds
+    const diffMins = Math.round(diffMs / 60000); // difference in minutes
+    const diffHrs = Math.round(diffMs / 3600000); // difference in hours
+
+    const day = date.getDate();
+    const month = months[date.getMonth()];
+    const year = date.getFullYear();
+
+    let formattedDate = `${day}/${month}/${year}`;
+
+    if (diffMins < 60) {
+        formattedDate += ` today ${diffMins} minutes ago`;
+    } else if (diffHrs < 24) {
+        formattedDate += ` today ${diffHrs} hours ago`;
+    }
+
+    return formattedDate;
+},
   format_amount: (amount) => {
     // format large numbers with commas
     return parseInt(amount).toLocaleString();

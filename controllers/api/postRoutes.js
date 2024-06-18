@@ -102,17 +102,22 @@ router.delete("/:postId/delete", withAuthApi, async (req, res) => {
     }
 });
 
-router.get("/comments/:id", async (req, res) => {
+
+router.get('/:id/comments', async (req, res) => {
+  
+
     try {
-        const commentData = await Comment.findByPk(req.params.id, {
+        const id = await Post.findByPk(req.params.id, {
             include: [
                 {
                     model: User,
                     attributes: ["id", "username", "name"],
                 },
                 {
-                    model: Post,
-                    attributes: ["id"],
+
+                    model: Comment,
+                    attributes: ['comment_content','postId','userId','dateCreated'],
+
                     include: {
                         model: User,
                         attributes: ["id", "username"],
@@ -120,14 +125,16 @@ router.get("/comments/:id", async (req, res) => {
                 },
             ],
         });
-        console.log(commentData);
-        const comments = commentData.get({ plain: true });
 
-        res.render("commentsbyid", {
+        
+        const comments = id.get({ plain: true });
+    
+        res.render('commentsbyid', {
             ...comments,
-            logged_in: req.session.logged_in,
-        });
-    } catch (err) {
+            logged_in: req.session.logged_in
+          });
+      } catch (err) {
+
         res.status(500).json(err);
     }
 });
