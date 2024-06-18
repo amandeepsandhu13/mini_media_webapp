@@ -1,7 +1,18 @@
 <div class="text-center">
-  <p>{{comment.comment_content}}</p>
-  <p> by {{user.name}} on {{dateCreated}}</p>
-  <p>
-    <button data-id="{{this.id}}" data-postid="{{post.id}}">Delete</button>
-  </p>
+  <h5>Comments</h5>
+  {{#each allcomments as |comment|}}
+  <a href="/comments/{{comment.id}}">
+    <p>{{comment.comment_content}}</p>
+    <p> by {{comment.user.name}} on {{formatDate comment.dateCreated}}</p>
+  </a>
+  <hr>
+  {{/each}}
 </div>
+<h5>Write a Comment...</h5>
+<form id="new-comment-form" data-id="{{postId}}">
+    <textarea id="comment_content" placeholder="Enter your comment"></textarea>
+    <button type="submit">Submit Comment</button>
+  
+</form>
+<a href="/posts">back</a> 
+<script src="/js/add-comment.js"></script>

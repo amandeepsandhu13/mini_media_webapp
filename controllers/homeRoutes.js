@@ -1,13 +1,19 @@
 const router = require("express").Router();
 const { User,Comment,Post } = require('../models');
-// Import the withAuth middleware
-const { withAuth } = require('../utils/auth');
+const { Op } = require("sequelize");
 
-router.get('/', async (req, res) => {
-  res.render('login', {
-    logged_in: req.session.logged_in
-  });
+// Import the withAuth middleware
+const { withAuth, withAuthApi } = require('../utils/auth');
+
+router.get('/', withAuth, (req, res) => {
+  res.redirect('/profile');
 });
+
+//router.get('/', async (req, res) => {
+//  res.render('login', {
+ //   logged_in: req.session.logged_in
+ // });
+//});
 
 router.get('/login', (req, res) => {
   if (req.session.logged_in) {
@@ -25,20 +31,21 @@ router.get('/register', (req, res) => {
 
   res.render('register');
 });
-
 router.get('/profile', withAuth, async (req, res) => {
   try {
+    // Check if user is logged in
+    if (!req.session.logged_in) {
+      return res.redirect('/login'); // Redirect to login if not logged in
+    }
     const userData = await User.findByPk(req.session.user_id, {
       attributes: { exclude: ['password'] },
+      include: [{ model: Post }],
     });
 
     const user = userData.get({ plain: true });
 
-    // Determine if logged-in user owns the profile being viewed
-    const isOwner = req.session.user_id === user.id;
     res.render('user-profile', { 
       user,
-      isOwner,
       logged_in: req.session.logged_in
     });
   } catch (err) {
@@ -46,6 +53,7 @@ router.get('/profile', withAuth, async (req, res) => {
     res.status(500).json(err);
   }
 });
+
 
 router.get('/profile/:userId', withAuth, async (req, res) => {
   try {
@@ -106,20 +114,48 @@ router.get('/update-profile/:id', withAuth, async (req, res) => {
   }
 });
 
-router.get('/comments/:id', async (req, res) => {
+
+ 
+router.get('/comments', async (req, res) => {
   try {
+    const commentData = await Comment.findAll({
+      include: [
+        {
+          model: User,Post,
+          attributes: ['username','name'],
+        },
+      ],
+    });
+
+    const allcomments = commentData.map((Comment) =>
+      Comment.get({ plain: true })
+    );
+
+    res.render('comments', {
+      allcomments,
+      loggedIn: req.session.loggedIn,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
+router.get('/comments/:id', async (req, res) => {
+  
+  try {
+    console.log("aquii");
       const commentData = await Comment.findByPk(req.params.id, {
         include: [
           {
-            model: User,Post,
+            model: User,
             attributes: ['username','name'],
           },
         ],
       });
-  
+      
       const comments = commentData.get({ plain: true });
   
-      res.render('comments', {
+      res.render('commentsbyid', {
         ...comments,
         logged_in: req.session.logged_in
       });
@@ -127,5 +163,51 @@ router.get('/comments/:id', async (req, res) => {
       res.status(500).json(err);
     }
   });
+  
+
+  
+// to show all posts
+router.get("/posts", async (req, res) => {
+  try {
+    const twoDaysAgo = new Date();
+    twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
+
+    const postData = await Post.findAll({
+        where: {
+            date: {
+                [Op.gte]: twoDaysAgo
+            }
+        },
+          include: [{ model: User, attributes: ["name", "username"] }],
+          order: [['date', 'DESC']],
+      });
+      const posts = postData.map((post) => post.get({ plain: true }));
+      res.render('all-posts', {
+        posts,
+        logged_in: req.session.logged_in,
+        username: req.session.username,
+      });  } catch (err) {
+      console.error("Error fetching posts:", err);
+      res.status(500).json(err);
+  }
+});
+
+// to show add post page
+router.get('/add-post', withAuthApi, async (req, res) => {
+  try {
+      const userId = req.query.userid;
+      if (!userId) {
+          return res.status(400).json({ message: "User ID is required." });
+      }
+      res.render("add-post", { userId });
+  } catch (err) {
+      console.error(`Error displaying add post page: `, err);
+      res.status(500).json({
+          message: "Failed to display add post page.",
+          error: err,
+      });
+  }
+});
+
 
 module.exports = router;

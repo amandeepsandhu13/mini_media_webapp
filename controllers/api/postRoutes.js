@@ -1,8 +1,8 @@
 const router = require("express").Router();
-const { Post, User } = require("../../models");
+const { Post, User, Comment } = require("../../models");
 const { withAuth, withAuthApi } = require("../../utils/auth");
 
-// to show all posts
+// to show all posts GET /api/posts
 router.get("/", async (req, res) => {
     try {
         const postData = await Post.findAll({
@@ -40,63 +40,82 @@ router.get("/user/:userid", async (req, res) => {
     }
 });
 
-// to show add post page
-router.get("/add-post", withAuthApi, async (req, res) => {
+// POST /api/posts/add-post
+router.post('/add-post', withAuthApi, async (req, res) => {
     try {
-        const userId = req.query.userid;
-        if (!userId) {
-            return res.status(400).json({ message: "User ID is required." });
-        }
-        res.render("add-post", { userId });
+      const { title, post_contents, image_url, userId } = req.body;
+      if (!userId) {
+        return res.status(400).json({ message: 'User ID is required.' });
+      }
+      const newPost = await Post.create({
+        title,
+        post_contents,
+        image_url,
+        userId,
+      });
+      res.redirect(`/profile`);
+
     } catch (err) {
-        console.error(`The error while displaying the page to add post: `, err);
-        res.status(500).json({
-            message: "Failed to display add post page.",
-            error: err,
-        });
+      console.error('Error during adding the post:', err);
+      res.status(400).json(err);
     }
-});
+  });
 
-// to add the post
-router.post("/add-post", withAuthApi, async (req, res) => {
+// DELETE route to delete a post
+router.delete('/:postId/delete', withAuthApi, async (req, res) => {
     try {
-        const { title, post_contents, image_url, userId } = req.body;
-        if (!userId) {
-            return res.status(400).json({ message: "User ID is required." });
+        const postId = req.params.id;
+        const userId = req.session.userId;
+        // Find the post by postId
+        const post = await Post.findOne({ _id: postId });
+        
+        if (!post) {
+            return res.status(404).json({ error: 'Post not found' });
         }
-        const newPost = await Post.create({
-            title,
-            post_contents,
-            image_url,
-            userId,
-        });
-        res.status(200).json(newPost);
-    } catch (err) {
-        console.error("Error during adding the post:", err);
-        res.status(400).json(err);
-    }
-});
-
-// to delete the post
-router.delete("/:id", withAuth, async (req, res) => {
-    try {
-        const postData = await Post.destroy({
-            where: {
-                id: req.params.id,
-                user_id: req.session.user_id,
-            },
-        });
-
-        if (!postData) {
-            res.status(404).json({ message: "No post found with this id!" });
-            return;
+        
+         // Check if the logged-in user is the owner of the post
+         if (post.userId.toString() !== req.session.userId) {
+            return res.status(403).json({ error: 'You are not authorized to delete this post' });
         }
 
-        res.status(200).json(postData);
+        // Perform deletion
+        await post.remove();
+
+        res.json({ message: 'Post deleted successfully' });
     } catch (err) {
         console.error(`The error found in the app : ` + err);
         res.status(500).json(err);
     }
 });
+
+router.get('/comments/:id', async (req, res) => {
+    try {
+        const commentData = await Comment.findByPk(req.params.id, {
+            include: [
+                {
+                  model: User,
+                  attributes: ['id', 'username', 'name',],
+                },
+                {
+                    model: Post,
+                    attributes: ['id'],
+                    include: {
+                        model: User,
+                        attributes: ['id', 'username']
+                    }
+                },
+              ],
+        });
+        console.log(commentData);
+        const comments = commentData.get({ plain: true });
+    
+        res.render('commentsbyid', {
+          ...comments,
+          logged_in: req.session.logged_in
+        });
+      } catch (err) {
+        res.status(500).json(err);
+      }
+    });
 
 module.exports = router;

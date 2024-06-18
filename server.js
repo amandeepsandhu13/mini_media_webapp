@@ -2,12 +2,11 @@ const path = require("path");
 const express = require("express");
 const session = require("express-session");
 const exphbs = require("express-handlebars");
-const helpers = require("handlebars-helpers")(); // Ensure handlebars-helpers is installed
-
+const helpers = require("handlebars-helpers")();
 const sequelize = require("./config/connection");
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
 const routes = require("./controllers");
-
+const { format } = require('date-fns');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
@@ -20,7 +19,7 @@ app.use(express.static(path.join(__dirname, "public")));
 const sess = {
   secret: "Super secret secret",
   cookie: {
-    maxAge: 300000,
+    maxAge: 3000000,
     httpOnly: true,
     secure: false, // Change to true in production if using HTTPS
     sameSite: "strict",
@@ -36,7 +35,14 @@ app.use(session(sess));
 const hbs = exphbs.create({ helpers });
 
 // Set template engine
-app.engine("handlebars", hbs.engine);
+app.engine('handlebars', exphbs({
+  defaultLayout: 'main',
+  helpers: {
+    formatDate: function(dateString) {
+      return format(new Date(dateString), 'MMM dd, yyyy');
+    }
+  }
+}));
 app.set("view engine", "handlebars");
 
 // Routes

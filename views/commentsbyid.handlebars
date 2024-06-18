@@ -1,0 +1,36 @@
+
+<div class="text-center">
+  <h5>Comments</h5>
+    <p>{{comment_content}}</p>
+    <p> by <a
+            href="/profile/{{id}}"
+        >{{user.username}}</a> on {{dateCreated}}</p>
+  </a>
+
+  <hr>
+</div>
+<div class="row">
+    <div class="col s12">
+        <h5>Write a Comment...</h5>
+        <form id="new-comment-form" method="POST" action="/api/comments">
+            <input type="hidden" id="userId" value="{{comment.userId}}" />
+
+            <div class="input-field">
+                <input
+                    type="text"
+                    id="comment_content"
+                    name="comment_content"
+                    class="validate"
+                    value="{{comment.comment_content}}"
+                    required
+                />
+                <label for="comment_content">Your comment...</label>
+            </div>
+
+            <button type="submit" class="btn waves-effect waves-light">Submit Comment</button>
+
+        </form>
+    </div>
+</div>
+
+<script src="/js/add-comment.js"></script>

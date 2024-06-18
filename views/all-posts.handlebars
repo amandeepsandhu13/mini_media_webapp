@@ -1,12 +1,24 @@
-<!-- all-posts.handlebars -->
-<h1>All Posts</h1>
+<h1 class="center-align">All Posts</h1>
 
-{{#each posts}}
-    <div class="post">
-        <h3><a href="{{this.id}}">{{this.title}}</a></h3><a
-            href="/profile/{{this.userId}}"
-        >{{this.user.username}}</a>
-        <p>{{this.post_contents}}</p>
-        <p>Author: {{this.user.username}}</p>
+<div class="row">
+  {{#each posts}}
+    <div class="col s12 m6">
+      <div class="card">
+        <div class="card-content">
+          <span class="card-title">{{this.title}}</span>
+          <p>{{this.post_contents}}</p>
+          <p>Author: <a href="/profile/{{this.user.id}}">{{this.user.username}}</a></p>
+        </div>
+        {{#if this.image_url}}
+          <div class="card-image">
+            <img src="{{this.image_url}}" alt="Post Image">
+          </div>
+          <a class ="btn" href="/api/posts/comments/{{this.id}}">view comments</a>
+        {{/if}}
+        <div class="card-action">
+          <!-- Any additional actions or buttons can go here -->
+        </div>
+      </div>
     </div>
-{{/each}}
+  {{/each}}
+</div>
