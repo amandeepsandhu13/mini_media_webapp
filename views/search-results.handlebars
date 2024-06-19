@@ -1,0 +1,41 @@
+<!-- Display search results -->
+<h1>Search Results for "{{query}}"</h1>
+
+{{#if users.length}}
+    <!-- First Result -->
+    <div id="first-result" class="card">
+        <div class="card-content">
+            <span class="card-title">First Result</span>
+            <p>Username: {{users.[0].username}}</p>
+            <p>Name: {{users.[0].name}}</p>
+            <p>Email: {{users.[0].email}}</p>
+            <a href="/users/profile/{{users.[0].id}}" class="btn blue">View Profile</a>
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- All Results -->
+    <div id="all-results">
+        <h2>All Results</h2>
+        <ul class="collection">
+            {{#each users}}
+                <li class="collection-item">
+                    <p>Username: {{this.username}}</p>
+                    <p>Name: {{this.name}}</p>
+                    <p>Email: {{this.email}}</p>
+                    <a href="/users/profile/{{this.id}}" class="btn blue">View Profile</a>
+                </li>
+            {{/each}}
+        </ul>
+    </div>
+{{else}}
+    <!-- No Results -->
+    <div class="center-align">
+        <h3>No users found for "{{query}}"</h3>
+        <a href="/" class="btn blue">Go Back</a>
+    </div>
+{{/if}}
+
+<!-- Optional: Search button -->
+<button id="searchBtn" class="btn blue">Search Again</button>

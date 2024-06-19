@@ -145,16 +145,15 @@ input[type="date"].datepicker {
   margin-bottom: 15px; /* Add spacing below title */
 }
 
-/* Integrated Search Bar Styles */
 .search-bar {
   display: flex;
   align-items: center;
-  padding-left: 775px; /* Adjust left padding */
+  padding-left: 795px;
 }
 
 .search-bar .input-field {
-  width: 300px; /* Adjust width as needed */
-  margin: 0;
+  width: 300px;
+  margin-right: 10px;
 }
 
 .search-bar input[type="text"] {
@@ -165,4 +164,15 @@ input[type="date"].datepicker {
   border-radius: 5px;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
   outline: none;
+}
+
+.search-bar .btn {
+  position: absolute;
+  left: 265px;
+  top: 45%;
+  transform: translateY(-50%);
+  background-color: #808080; /* Change background color to grey */
+  height: 65px;
+  box-shadow: none;
+  border: 2px solid #333;
 }

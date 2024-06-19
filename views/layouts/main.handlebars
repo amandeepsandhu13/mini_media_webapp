@@ -16,9 +16,12 @@
             <div class="nav-wrapper">
                 <a href="/" class="brand-logo left">Mini Media</a>
                 <div class="center-align search-bar">
-                    <div class="input-field">
-                        <input type="text" id="search" placeholder="Search...">
-                    </div>
+                    <form id="searchForm">
+                        <div class="input-field">
+                            <input type="text" id="search" placeholder="Search...">
+                            <button id="searchBtn" class="btn blue"><i class="material-icons">search</i></button>
+                        </div>
+                    </form>
                 </div>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
                     {{#if logged_in}}
