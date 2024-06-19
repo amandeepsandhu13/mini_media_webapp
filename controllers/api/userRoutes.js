@@ -63,6 +63,38 @@ router.post("/login", async (req, res) => {
   }
 });
 
+router.get("/search", async (req, res) => {
+    try {
+        let { query } = req.query;
+
+        // Trim whitespace
+        query = query.trim();
+
+        // Perform search using Sequelize findAll with case-insensitive matching
+        const users = await User.findAll({
+            where: {
+                [Op.or]: [
+                    { username: { [Op.iLike]: `%${query}%` } },
+                    { name: { [Op.iLike]: `%${query}%` } },
+                    { email: { [Op.iLike]: `%${query}%` } },
+                ]
+            },
+        });
+
+        if (users.length === 0) {
+            res.status(404).json({ users: [], message: `No users found for "${query}".` });
+        } else {
+            res.status(200).json({ users });
+        }
+    } catch (err) {
+        console.error("Error searching users:", err);
+        res.status(500).json({ error: "Error searching users" });
+    }
+});
+
+
+
+
 // Logout user with GET request
 router.get("/logout", (req, res) => {
     if (req.session.logged_in) {
