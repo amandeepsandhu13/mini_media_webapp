@@ -19,8 +19,9 @@
 <div class="row">
     <div class="col s12">
         <h5>Write a Comment...</h5>
-        <form id="new-comment-form" method="POST" action="/api/comments">
+        <form id="new-comment-form" method="POST" action="/api/posts/{{comment.postId}}/comments">
             <input type="hidden" id="userId" value="{{comment.userId}}" />
+            <input type="hidden" id="postId" value="{{comment.postId}}" />
 
             <div class="input-field">
                 <input

@@ -3,13 +3,14 @@ document.querySelector('#new-comment-form').addEventListener('submit', async fun
   event.preventDefault();
 
   const comment_content = document.querySelector('#comment_content').value;
+  const postId = document.querySelector('#postId').value;
 
   if ( !comment_content) {
       alert('comment content is missing');
       return;
   }
 
-  const response = await fetch(`/api/comments`, { 
+  const response = await fetch(`/api/posts/${postId}comments`, { 
       method: 'POST',
       body: JSON.stringify({
           comment_content,

@@ -102,7 +102,23 @@ router.delete("/:postId/delete", withAuthApi, async (req, res) => {
     }
 });
 
-
+router.post("/:id/comments", async (req, res) => {
+    try {
+        if (!req.session.userId) {
+            return res.status(401).json({ error: "Unauthorized: User not logged in" });
+        }
+        const newComment = await Comment.create({
+            comment_content: req.body.comment_content,
+            userId: req.session.userId,
+            postId: req.params.id
+        });
+        res.status(201).json(newComment);
+    } catch (err) {
+        console.log(err);
+        res.status(400).json(err);
+    }
+    // create a new comment
+});
 router.get('/:id/comments', async (req, res) => {
   
 
