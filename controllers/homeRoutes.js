@@ -5,11 +5,15 @@ const { Op } = require("sequelize");
 // Import the withAuth middleware
 const { withAuth, withAuthApi } = require('../utils/auth');
 
-router.get('/', async (req, res) => {
-  res.render('login', {
-    logged_in: req.session.logged_in
-  });
+router.get('/', withAuth, (req, res) => {
+  res.redirect('/profile');
 });
+
+//router.get('/', async (req, res) => {
+//  res.render('login', {
+ //   logged_in: req.session.logged_in
+ // });
+//});
 
 router.get('/login', (req, res) => {
   if (req.session.logged_in) {
@@ -136,32 +140,9 @@ router.get('/comments', async (req, res) => {
     res.status(500).json(err);
   }
 });
-router.get('/comments/:id', async (req, res) => {
-  
-  try {
-    console.log("aquii");
-      const commentData = await Comment.findByPk(req.params.id, {
-        include: [
-          {
-            model: User,
-            attributes: ['username','name'],
-          },
-        ],
-      });
-      
-      const comments = commentData.get({ plain: true });
-  
-      res.render('commentsbyid', {
-        ...comments,
-        logged_in: req.session.logged_in
-      });
-    } catch (err) {
-      res.status(500).json(err);
-    }
-  });
-  
 
   
+
 // to show all posts
 router.get("/posts", async (req, res) => {
   try {
