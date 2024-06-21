@@ -2,23 +2,29 @@ const router = require("express").Router();
 const { Comment, Post } = require("../../models/index");
 const { withAuth, withAuthApi } = require("../../utils/auth");
 
-// to see all the comments
-router.post("/", async (req, res) => {
-    try {
-        const newComment = await Comment.create({
-            comment_content: req.body.comment_content,
-            userId: req.session.userId,
-            postId: req.body.postId
-        });
-
-        res.status(200).json(newComment);
-        res.render("add-comment");
+// Route to create a new comment
+router.post('/:postId', withAuthApi, async (req, res) => {
+    try{
+    const { postId } = req.params;
+    const  content  = req.body.content;
+    const userId = req.session.user_id;
+    console.log("comment content "+content);
+    if (!userId) {
+        return res.status(401).json({ message: 'You must be logged in to comment.' });
+      }
+  
+      const newComment = await Comment.create({
+        comment_content: content,
+        postId,
+        userId,
+      });
+  
+      res.status(201).json(newComment);
     } catch (err) {
-        console.log(err);
-        res.status(400).json(err);
+      console.error('Error creating comment:', err);
+      res.status(500).json(err);
     }
-    // create a new comment
-});
+  });
 
 router.delete("/:id", async (req, res) => {
     try {
