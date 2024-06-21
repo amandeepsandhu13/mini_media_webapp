@@ -113,35 +113,34 @@ router.get('/update-profile/:id', withAuth, async (req, res) => {
     res.status(500).json(err);
   }
 });
-
-
  
-router.get('/comments', async (req, res) => {
+router.get("/comments/:postId", withAuth, async (req, res) => {
   try {
-    const commentData = await Comment.findAll({
+    const postData = await Post.findByPk(req.params.postId, {
       include: [
         {
-          model: User,Post,
-          attributes: ['username','name'],
+          model: Comment,
+          include: [User],
+          order: [["createdAt", "DESC"]], // Sort comments by createdAt in descending order
         },
+        User,
       ],
     });
 
-    const allcomments = commentData.map((Comment) =>
-      Comment.get({ plain: true })
-    );
-
-    res.render('comments', {
-      allcomments,
-      loggedIn: req.session.loggedIn,
+    if (!postData) {
+      res.status(404).json({ message: "No post found with this id" });
+      return;
+    }
+    const post = postData.get({ plain: true });
+    res.render("comments", {
+      post,
+      logged_in: req.session.logged_in,
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     res.status(500).json(err);
   }
-});
-
-  
+});  
 
 // to show all posts
 router.get("/posts", async (req, res) => {
