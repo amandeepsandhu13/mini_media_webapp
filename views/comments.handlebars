@@ -1,12 +1,25 @@
-<div class="text-center">
-  <h5>Comments</h5>
-  {{#each allcomments as |comment|}}
-  <a href="/comments/{{comment.id}}">
-    <p>{{comment.comment_content}}</p>
-    <p> by {{comment.user.name}} on {{formatDate comment.dateCreated}}</p>
-  </a>
-  <hr>
+ <h3>{{post.title}}</h3>
+ <p>{{post.content}}</p>
+ <p>Posted by: {{post.user.name}}</p>
+    <ul class="collection" id="comments-list">
+      {{#each comments}}
+        <li class="collection-item avatar">
+          <span class="title"><strong>{{User.username}}</strong></span>
+          <p>comment content: {{this.comment_content}}</p>
+          <p class="secondary-content">{{this.dateCreated}}</p>
+        </li>
+      {{/each}}
+    </ul>
+
+<h4>Comments</h4>
+<ul>
+  {{#each post.comments}}
+    <li>
+      <p>{{this.comment_content}}</p>
+      <p>Commented by: {{this.user.name}}</p>
+    </li>
   {{/each}}
+
 </div>
 <h5>Write a Comment...</h5>
 <h5>Write a Comment...</h5>
@@ -15,7 +28,8 @@
     <textarea id="comment-content" name="content" class="materialize-textarea" required></textarea>
     <label for="comment-content">Your Comment</label>
   </div>
+
   <button type="submit" class="btn waves-effect waves-light" id="commentBtn">Add Comment</button>
 </form>
-<a href="/posts">back</a> 
+
 <script src="/js/add-comment.js"></script>
