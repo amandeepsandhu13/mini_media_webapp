@@ -9,10 +9,13 @@
   {{/each}}
 </div>
 <h5>Write a Comment...</h5>
-<form id="new-comment-form" data-id="{{postId}}">
-    <textarea id="comment_content" placeholder="Enter your comment"></textarea>
-    <button type="submit">Submit Comment</button>
-  
+<h5>Write a Comment...</h5>
+<form id="add-comment-form" data-post-id="{{post.id}}" method="POST">
+  <div class="input-field">
+    <textarea id="comment-content" name="content" class="materialize-textarea" required></textarea>
+    <label for="comment-content">Your Comment</label>
+  </div>
+  <button type="submit" class="btn waves-effect waves-light" id="commentBtn">Add Comment</button>
 </form>
 <a href="/posts">back</a> 
 <script src="/js/add-comment.js"></script>
