@@ -146,18 +146,11 @@ router.get('/comments', async (req, res) => {
 // to show all posts
 router.get("/posts", async (req, res) => {
   try {
-    const twoDaysAgo = new Date();
-    twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
-
-    const postData = await Post.findAll({
-        where: {
-            date: {
-                [Op.gte]: twoDaysAgo
-            }
-        },
-          include: [{ model: User, attributes: ["name", "username"] }],
-          order: [['date', 'DESC']],
-      });
+       const postData = await Post.findAll({
+        limit: 5, // Limit the query to 5 posts
+      include: [{ model: User, attributes: ["name", "username"] }],
+      order: [["date", "DESC"]],
+    });
       const posts = postData.map((post) => post.get({ plain: true }));
       res.render('all-posts', {
         posts,
