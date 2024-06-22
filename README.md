@@ -8,7 +8,7 @@ I want to have the ability to connect and interact only with people I know,
 So that I can maintain my privacy and ensure my personal data is secured.
 ```
 
-## Working
+## Functionality
 
 ```
 WHEN the app started it will show the page to either REGISTER(for new user) or LOGIN
@@ -33,6 +33,9 @@ THEN you will be given your personal space to share whatever you want
 
 ```
 
+## UI Library
+Materializecss
+
 
   ## License 
   This project is licensed under MIT license  
@@ -40,7 +43,7 @@ THEN you will be given your personal space to share whatever you want
 
   ## Group
 
- You can find more of our work at: 
+ Conrtibution: 
 
 [Amandeep Kaur sandhu](https://github.com/amandeepsandhu13).
 
@@ -54,4 +57,5 @@ THEN you will be given your personal space to share whatever you want
 
 
   ## Deployed page
-  https://mini-media-webapp.onrender.com
+https://mini-media-webapp.onrender.com
+
