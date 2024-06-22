@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const imageInput = document.getElementById("image");
     const imagePreview = document.getElementById("imagePreview");
 
+    // Event listener for image input change to show preview
     imageInput.addEventListener("change", () => {
         const file = imageInput.files[0];
         if (file) {
@@ -17,6 +18,8 @@ document.addEventListener("DOMContentLoaded", () => {
             imagePreview.style.display = "none";
         }
     });
+
+    // Event listener for form submission
     addPostForm.addEventListener("submit", async (event) => {
         event.preventDefault(); // Prevent default form submission
 
@@ -27,35 +30,30 @@ document.addEventListener("DOMContentLoaded", () => {
             const image_url = document.getElementById("image_url").value;
             const user_id = document.querySelector(
                 "input[name='userId']"
-            ).value; // Get user_id from hidden input
+            ).value; // Get userId from hidden input
+            const image = imageInput.files[0]; // Get the selected image file
 
-            const formData = {
-                title,
-                post_contents,
-                image_url,
-                userId: user_id,
-            };
+            // Create FormData object to send both text and file data
+            const formData = new FormData();
+            formData.append("userId", user_id);
+            formData.append("title", title);
+            formData.append("post_contents", post_contents);
+            formData.append("image", image);
 
             const url = "/api/posts/add-post";
 
             const response = await fetch(url, {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(formData),
+                body: formData,
             });
 
             if (!response.ok) {
                 const errorResponse = await response.text();
                 throw new Error(errorResponse);
             }
-            if (response.ok) {
-                window.location.replace("/profile");
-            } else {
-                const errorData = await response.json();
-                console.error("Error adding the post:", errorData);
-            }
+
+            // If successful, redirect to profile page
+            window.location.replace("/profile");
         } catch (error) {
             console.error("Error adding the post:", error);
             document.getElementById("updateMessage").innerText =

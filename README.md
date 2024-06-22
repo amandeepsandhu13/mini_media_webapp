@@ -39,12 +39,14 @@ THEN you will be given your personal space to share whatever you want
 ## UI Library
 Materializecss
 
+## UI Library
+Materializecss
+
 ## Screenshots
 
 ![User profile page](./utils/images/user-profile.png)
 
 ![View Posts page](./utils/images/posts.png)
-
 
 ## License 
   This project is licensed under MIT license  
@@ -63,7 +65,6 @@ Materializecss
 
 [Alexis Brown-Renshaw](https://github.com/KatLeviathan).
 
-
-## Deployed Link
+ ## Deployed page
 https://mini-media-webapp.onrender.com
- 
+

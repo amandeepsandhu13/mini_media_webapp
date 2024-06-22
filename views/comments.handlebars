@@ -19,10 +19,16 @@
       <p>Commented by: {{this.user.name}}</p>
     </li>
   {{/each}}
-</ul>
- <h5>Write a Comment...</h5>
+
+</div>
+<h5>Write a Comment...</h5>
+<h5>Write a Comment...</h5>
 <form id="add-comment-form" data-post-id="{{post.id}}" method="POST">
-  <textarea id="comment-content" name="content" required></textarea>
+  <div class="input-field">
+    <textarea id="comment-content" name="content" class="materialize-textarea" required></textarea>
+    <label for="comment-content">Your Comment</label>
+  </div>
+
   <button type="submit" class="btn waves-effect waves-light" id="commentBtn">Add Comment</button>
 </form>
 
