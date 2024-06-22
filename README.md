@@ -49,7 +49,6 @@ Materializecss
 ## License 
   This project is licensed under MIT license  
 
-
 ## Group
 
  Conrtibution: 
@@ -67,4 +66,4 @@ Materializecss
 
 ## Deployed Link
 https://mini-media-webapp.onrender.com
-
+ 
